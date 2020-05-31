@@ -1,1 +1,2 @@
-export const LOAD_DATA = "load data";
+export const LOAD_DATA = ['admin'];
+export const DISPLAY_STRUCTURE = ['conseiller', 'elp'];

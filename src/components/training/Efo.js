@@ -5,7 +5,7 @@ import useStyles from '../shared/navbarV/filesForMaterialUi/useStyles';
 import { NavContext } from '../../contexts/NavContext';
 
 
-const Home = () => {
+const Efo = () => {
 
     const classes = useStyles();
     const { open } = useContext(NavContext)
@@ -20,7 +20,7 @@ const Home = () => {
                 })}
             >
                 <div className={classes.drawerHeader} />
-                <h1>home</h1>
+                <h1>EFO</h1>
             </main>
       </div>
     )
@@ -29,4 +29,4 @@ const Home = () => {
 
 
 
-export default Home;
+export default Efo;
