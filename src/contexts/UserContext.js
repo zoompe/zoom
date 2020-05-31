@@ -1,17 +1,16 @@
-import React from 'react';
+import React , {createContext, useState} from 'react';
 
 //data from database
-const currentUserPermissions = [
-    "load data",
-]
+const currentUserFunction = "admin"
 
-export const UserContext = React.createContext();
+
+export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
-    const [userPermissions, handleUserPermissions] = React.useState(currentUserPermissions);
+    const [userFunction] = useState(currentUserFunction);
 
     return  (
-        <UserContext.Provider value={{ userPermissions }}>
+        <UserContext.Provider value={{ userFunction }}>
             {props.children}
         </UserContext.Provider>
     )

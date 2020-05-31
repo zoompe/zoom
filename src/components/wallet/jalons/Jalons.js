@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import NavbarV from '../shared/navbarV/NavbarV';
+import NavbarV from '../../shared/navbarV/NavbarV';
 import clsx from 'clsx';
-import useStyles from '../shared/navbarV/filesForMaterialUi/useStyles';
-import { NavContext } from '../../contexts/NavContext';
+import useStyles from '../../shared/navbarV/filesForMaterialUi/useStyles';
+import { NavContext } from '../../../contexts/NavContext';
 
 
-const Home = () => {
+const Jalons = () => {
 
     const classes = useStyles();
     const { open } = useContext(NavContext)
@@ -20,7 +20,7 @@ const Home = () => {
                 })}
             >
                 <div className={classes.drawerHeader} />
-                <h1>home</h1>
+                <h1>Jalons</h1>
             </main>
       </div>
     )
@@ -29,4 +29,4 @@ const Home = () => {
 
 
 
-export default Home;
+export default Jalons;

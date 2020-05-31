@@ -1,0 +1,26 @@
+.MuiAppBar-colorPrimary {
+    color: #fff;
+    background-color: #4b9bc9!important;
+    background-image: linear-gradient(#4b9bc9, #cacfd2);
+}
+
+.MuiToolbar-root {
+    justify-content: space-between;
+}
+
+
+.MuiIconButton-root {
+      margin-right: 30px!important;
+      padding: 5px!important;
+}
+
+.MuiExpansionPanelSummary-content {
+    justify-content: space-between;
+}
+
+.MuiExpansionPanelDetails-root {
+    flex-direction: column;
+}
+.MuiBadge-colorSecondary {
+    background-color: #b7797f!important;
+}
