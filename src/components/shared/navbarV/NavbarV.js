@@ -1,4 +1,4 @@
-import React,  {useContext} from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
@@ -30,154 +30,150 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './navbarV.css';
 
-
 export default function NavbarV() {
-  const classes = useStyles();
-  const classesP = useStylesPanel();
-  const theme = useTheme();
-  
-  const { open,handleDrawerOpen,handleDrawerClose } = useContext(NavContext)
-  const { userFunction } = useContext(UserContext);
-  console.log(userFunction)
-  
-  const [expanded, setExpanded] = React.useState(false);
+	const classes = useStyles();
+	const classesP = useStylesPanel();
+	const theme = useTheme();
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  }
+	const { open, handleDrawerOpen, handleDrawerClose } = useContext(NavContext);
+	const { userFunction } = useContext(UserContext);
+	console.log(userFunction);
 
-   return (
-    <div>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="subtitle1" noWrap>
-            Maj : 01/05/2020
-          </Typography>
-          <List>
-                <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={5} color="secondary" max={999}>
-                    <SupervisedUserCircleIcon />
-                    </StyledBadge>
-                </IconButton>
-                <IconButton>
-                <MailIcon />
-                </IconButton>
+	const [ expanded, setExpanded ] = React.useState(false);
 
-        </List>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-            <ListItem button>
-            <div className="card mb-3">
-                    <div className="row no-gutters">
-                      <div className="col-8">
-                      <Avatar src="/broken-image.jpg" /> 
-                      </div>
-                      <div className="col-12">
-                        <div className="card-body">
-                          <h5 className="card-title">Namedfdsfgggdsgsggdsgsgqsdetretret</h5>
-                          <p className="card-text">Function</p>
-                          {isUserPermitted(DISPLAY_STRUCTURE,userFunction) &&
-                          <p className="card-text">Structure</p>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            
-            </ListItem>
+	const handleChange = (panel) => (event, isExpanded) => {
+		setExpanded(isExpanded ? panel : false);
+	};
 
-            
-          <div className={classesP.root}>
-            <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                  >
-                    <Typography className={classesP.heading}>Portefeuille</Typography>
-                    <Typography className={classesP.secondaryHeading}>200000</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <ListItem>
-                    <Link className="" to="/diag">Diagnostic</Link>     
-                    </ListItem>  
-                    <ListItem> 
-                    <Link className="" to="/jalons">Jalons</Link>  
-                    </ListItem>
-                   
-                  </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2bh-content"
-                    id="panel2bh-header"
-                  >
-                    <Typography className={classesP.heading}>EFO</Typography>
-                    <Typography className={classesP.secondaryHeading}>30000</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <ListItem>
-                    <Link className="" to="/efo">EFO C/O en attente</Link>     
-                    </ListItem>  
-                  </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel3bh-content"
-                    id="panel3bh-header"
-                  >
-                    <Typography className={classesP.heading}>Activités</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <ListItem>
-                    <Link className="" to="/contacts">Contacts</Link>     
-                    </ListItem>  
-                  </ExpansionPanelDetails>
-            </ExpansionPanel>               
+	return (
+		<div>
+			<CssBaseline />
+			<AppBar
+				position="fixed"
+				className={clsx(classes.appBar, {
+					[classes.appBarShift]: open
+				})}
+			>
+				<Toolbar>
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={handleDrawerOpen}
+						edge="start"
+						className={clsx(classes.menuButton, open && classes.hide)}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant="subtitle1" noWrap>
+						Maj : 01/05/2020
+					</Typography>
+					<List>
+						<IconButton aria-label="cart">
+							<StyledBadge badgeContent={5} color="secondary" max={999}>
+								<SupervisedUserCircleIcon />
+							</StyledBadge>
+						</IconButton>
+						<IconButton>
+							<MailIcon />
+						</IconButton>
+					</List>
+				</Toolbar>
+			</AppBar>
+			<Drawer
+				className={classes.drawer}
+				variant="persistent"
+				anchor="left"
+				open={open}
+				classes={{
+					paper: classes.drawerPaper
+				}}
+			>
+				<div className={classes.drawerHeader}>
+					<IconButton onClick={handleDrawerClose}>
+						{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+					</IconButton>
+				</div>
+				<Divider />
+				<List>
+					<ListItem button>
+						<div className="card mb-3">
+							<div className="row no-gutters">
+								<div className="col-8">
+									<Avatar src="/broken-image.jpg" />
+								</div>
+								<div className="col-12">
+									<div className="card-body">
+										<h5 className="card-title">Namedfdsfgggdsgsggdsgsgqsdetretret</h5>
+										<p className="card-text">Function</p>
+										{isUserPermitted(DISPLAY_STRUCTURE, userFunction) && (
+											<p className="card-text">Structure</p>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					</ListItem>
 
-          </div> 
-          <ListItem button>
-          {isUserPermitted(LOAD_DATA,userFunction) &&
-                <div>Load</div>
-            }
-          </ListItem>                  
-        </List>
-        
-             
-      </Drawer>
-      
-    </div>
-  );
+					<div className={classesP.root}>
+						<ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+							<ExpansionPanelSummary
+								expandIcon={<ExpandMoreIcon />}
+								aria-controls="panel1bh-content"
+								id="panel1bh-header"
+							>
+								<Typography className={classesP.heading}>Portefeuille</Typography>
+								<Typography className={classesP.secondaryHeading}>200000</Typography>
+							</ExpansionPanelSummary>
+							<ExpansionPanelDetails>
+								<ListItem>
+									<Link className="" to="diag">
+										Diagnostic
+									</Link>
+								</ListItem>
+								<ListItem>
+									<Link className="" to="jalons">
+										Jalons
+									</Link>
+								</ListItem>
+							</ExpansionPanelDetails>
+						</ExpansionPanel>
+						<ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+							<ExpansionPanelSummary
+								expandIcon={<ExpandMoreIcon />}
+								aria-controls="panel2bh-content"
+								id="panel2bh-header"
+							>
+								<Typography className={classesP.heading}>EFO</Typography>
+								<Typography className={classesP.secondaryHeading}>30000</Typography>
+							</ExpansionPanelSummary>
+							<ExpansionPanelDetails>
+								<ListItem>
+									<Link className="" to="efo">
+										EFO C/O en attente
+									</Link>
+								</ListItem>
+							</ExpansionPanelDetails>
+						</ExpansionPanel>
+						<ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+							<ExpansionPanelSummary
+								expandIcon={<ExpandMoreIcon />}
+								aria-controls="panel3bh-content"
+								id="panel3bh-header"
+							>
+								<Typography className={classesP.heading}>Activités</Typography>
+							</ExpansionPanelSummary>
+							<ExpansionPanelDetails>
+								<ListItem>
+									<Link className="" to="contacts">
+										Contacts
+									</Link>
+								</ListItem>
+							</ExpansionPanelDetails>
+						</ExpansionPanel>
+					</div>
+					<ListItem button>{isUserPermitted(LOAD_DATA, userFunction) && <div>Load</div>}</ListItem>
+				</List>
+			</Drawer>
+		</div>
+	);
 }
