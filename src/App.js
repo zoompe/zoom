@@ -1,36 +1,42 @@
 import React from 'react';
 import UserContextProvider from './contexts/UserContext';
-import NavContextProvider from './contexts/NavContext'; 
-import { Switch , Route } from 'react-router-dom' ;
-import Home from './components/home/Home';
+import NavContextProvider from './contexts/NavContext';
+import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
-import Jalons from './components/wallet/jalons/Jalons';
-import Diag from './components/wallet/diag/Diag';
-import Efo from './components/training/Efo';
+import RegisterUser from './components/connexion/RegisterUser';
+import Main from './components/main/Main';
+
 import Contacts from './components/activites/contacts/Contacts';
+import Efo from './components/training/Efo';
+import Diag from './components/wallet/diag/Diag';
+import Jalons from './components/wallet/jalons/Jalons';
 
 function App() {
-  return (
-    <div className="App">
-      <UserContextProvider>
-      <NavContextProvider>
-          <Switch>
-            <Route exact path="/" component = {Login} />
-            <Route path="/home" component = {Home} />
-            <Route path="/diag" component = {Diag} />
-            <Route path="/jalons" component = {Jalons} />
-            <Route path="/efo" component = {Efo} />
-            <Route path="/contacts" component = {Contacts} />
-          </Switch>
-      </NavContextProvider>    
-      </UserContextProvider>
-    </div>
-  );
+	return (
+		<div className="App">
+			<UserContextProvider>
+				<NavContextProvider>
+					<Switch>
+						<Route exact path="/" component={Login} />
+						<Route
+							exact
+							path="/home/:route"
+							render={() => (
+								<Main>
+									<Route path="home/main" component={Main} />
+									<Route path="/home/diag" component={Diag} />
+									<Route path="/home/jalons" component={Jalons} />
+									<Route path="/home/efo" component={Efo} />
+									<Route path="/home/contacts" component={Contacts} />
+								</Main>
+							)}
+						/>
+						<Route path="/register" component={RegisterUser} />
+					</Switch>
+				</NavContextProvider>
+			</UserContextProvider>
+		</div>
+	);
 }
 
 export default App;
-
-
-
-
-         

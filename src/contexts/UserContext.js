@@ -1,7 +1,6 @@
 import React , {createContext, useState} from 'react';
 
-//data from database
-const currentUserFunction = "admin"
+const currentUserFunction = "Admin" //database
 
 
 export const UserContext = createContext();
