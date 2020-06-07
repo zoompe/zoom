@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectUseForm from '../shared/Select';
-import { isUserPermitted } from '../../utils/permissions';
-import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
+// import { isUserPermitted } from '../../utils/permissions';
+// import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
 import { useForm } from 'react-hook-form'
 import './registerUser.css';
 
