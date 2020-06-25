@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
 import clsx from 'clsx';
-import useStyles from '../shared/navbarV/filesForMaterialUi/useStyles';
-import NavbarV from '../shared/navbarV/NavbarV';
+import useStyles from './Navbar.js/filesForMaterialUi/useStyles';
+import NavbarV from './Navbar.js/NavbarV';
 import { NavContext } from '../../contexts/NavContext';
 
 const Main = (props) => {

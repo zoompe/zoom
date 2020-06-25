@@ -36,8 +36,8 @@ export default function NavbarV() {
 	const theme = useTheme();
 
 	const { open, handleDrawerOpen, handleDrawerClose } = useContext(NavContext);
-	const { userFunction } = useContext(UserContext);
-	console.log(userFunction);
+	const { user } = useContext(UserContext);
+	console.log(user.Fonction);
 
 	const [ expanded, setExpanded ] = React.useState(false);
 
@@ -105,7 +105,7 @@ export default function NavbarV() {
 									<div className="card-body">
 										<h5 className="card-title">Namedfdsfgggdsgsggdsgsgqsdetretret</h5>
 										<p className="card-text">Function</p>
-										{isUserPermitted(DISPLAY_STRUCTURE, userFunction) && (
+										{isUserPermitted(DISPLAY_STRUCTURE, user.Fonction) && (
 											<p className="card-text">Structure</p>
 										)}
 									</div>
@@ -171,7 +171,11 @@ export default function NavbarV() {
 							</ExpansionPanelDetails>
 						</ExpansionPanel>
 					</div>
-					<ListItem button>{isUserPermitted(LOAD_DATA, userFunction) && <div>Load</div>}</ListItem>
+					<ListItem>{isUserPermitted(LOAD_DATA, user.Fonction) && 
+									<Link className="" to="load">
+										Load
+									</Link>}
+					</ListItem>
 				</List>
 			</Drawer>
 		</div>

@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 import './login.css';
 
 
 const Login = () => {
+    const { user, logUser } = useContext(UserContext)
    
     const history = useHistory();
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
+    
 
  const  handleChange = (event) => {
     const name = event.target.name;
@@ -16,15 +19,29 @@ const Login = () => {
     
   }
 
-  const log= (event) => {
+//   const log= (event) => {
+//     event.preventDefault();
+//     logUser(login.idgasi)
+    
+//     if (user.isConnected)  {  
+//         history.push({
+//         pathname: '/home/main',
+//     })};
+
+//   }
+
+const log= (event) => {
     event.preventDefault();
     console.log(login)
-    //if connexion ok
-    history.push({
-        pathname: '/home/main',
-    });
+    logUser(login)
+    
+    // if (user.isConnected)  {  
+    //     history.push({
+    //     pathname: '/home/main',
+    // })};
 
   }
+
 
       return (
         <div className="login">

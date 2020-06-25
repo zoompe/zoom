@@ -10,6 +10,7 @@ import Contacts from './components/activites/contacts/Contacts';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
 import Jalons from './components/wallet/jalons/Jalons';
+import Load from './components/load/Load';
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 									<Route path="/home/jalons" component={Jalons} />
 									<Route path="/home/efo" component={Efo} />
 									<Route path="/home/contacts" component={Contacts} />
+									<Route path="/home/Load" component={Load} />
 								</Main>
 							)}
 						/>
