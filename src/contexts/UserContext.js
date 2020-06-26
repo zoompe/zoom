@@ -1,21 +1,51 @@
-import React , {createContext, useState} from 'react';
-import axios from 'axios';
+import React , {createContext, useState, useEffect} from 'react';
+// import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 
 //database
 const currentUser = 
 {idgasi: '',
 Name: '',
-Fonction: 'Admin',
+Fonction: '',
+Function_id: null,
 Team: '',
+Team_id: null,
 P_User:'',
 Libelle_APE:'',
+APE_id: null,
+token:'',
+flash:''
 }
-
+ 
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
     const [user, setUser] = useState(currentUser);
+   
+    const history = useHistory();
+    useEffect(() => {
+        if (user.token.length > 0) 
+         {history.push({pathname: '/home/main'})}
+        else {history.push({pathname: '/'})}}
+    , [user,history])
+
+
+    const deleteUser = () => {
+        setUser({idgasi: '',
+		Name: '',
+        Fonction: '',
+        Function_id: null,
+        Team: '',
+        Team_id: null,
+		P_User:'',
+        Libelle_APE:'',
+        APE_id: null,
+		token:'',
+		flash:''
+		})
+    }
+
 
     const logUser = (user) => { 
         fetch("/auth/signin",
@@ -26,50 +56,34 @@ const UserContextProvider = (props) => {
                 }),
                 body:  JSON.stringify(user),
             })
-        .then(res  => {
-            if (res.ok)
-                return  res.json()
-            else
-                throw  new  Error(res.statusText);
-            })
+            .then(res  =>  res.json())
             .then(res =>  {
                 const token = res.token;
-                setUser(res.user)
+               console.log(res)
+                setUser({...user, 
+                    idgasi: res.user.idgasi, 
+                    Name:res.user.Name, 
+                    Fonction:res.user.Fonction,
+                    Function_id: res.user.Function_id,
+                    Team: res.user.Team,
+                    Team_id: res.user.Team_id,
+                    P_User:res.user.P_User,
+                    Libelle_APE:res.user.Libelle_APE,
+                    APE_id:res.user.APE_id,
+                    token: res.token,
+                    flash: res.flash
+                })
+                // setUser(res.user)
                 Cookies.set('authToken', token, { expires: 7 })
+               
             }
             )
-        // .then(res  =>  setUser({ "flash":  res.message }))
-        // .catch(err  => setUser({ "flash":  err.message }))
+             .catch(err => console.log( err.flash))
+            //  .catch(err  => setUser({ ...user, flash:  err.flash, token:'' }))
     }
-    
-// const logUser = (idgasi) => {
-//     axios.get(`http://localhost:3001/api/login/${idgasi}`)
-//     // .then (response => console.log(response.data))
-//     .then (response => setUser({ ...user, IDGASI: response.data.IDGASI, isConnected:true }))
-//     .catch((error) => {
-//         if (error.response.status===404) {
-//             console.log('login')
-//             setUser({ ...user, isConnected:false })
-//             console.log(user)
-//         } 
-//         console.log(error)
-//         setUser({ ...user, isConnected:false })
-//         console.log(user)
-//     })
-//     console.log(user)
-// }
-
-// const logUser = (userlogin) => {
-//       axios.post("/auth/signin", userlogin)
-//         .then((res) => setUser({ ...user, idgasi: res.data.idgsi }))
-//         console.log(user)
-//     }
-  
-
-
 
     return  (
-        <UserContext.Provider value={{ user,logUser }}>
+        <UserContext.Provider value={{ user,logUser, deleteUser }}>
             {props.children}
         </UserContext.Provider>
     )

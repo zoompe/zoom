@@ -28,6 +28,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Cookies from 'js-cookie';
 import './navbarV.css';
 
 export default function NavbarV() {
@@ -36,14 +37,20 @@ export default function NavbarV() {
 	const theme = useTheme();
 
 	const { open, handleDrawerOpen, handleDrawerClose } = useContext(NavContext);
-	const { user } = useContext(UserContext);
-	console.log(user.Fonction);
+	const { user, deleteUser } = useContext(UserContext);
+	
 
 	const [ expanded, setExpanded ] = React.useState(false);
 
 	const handleChange = (panel) => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
-	};
+	}
+
+	const logout = ()	=> {
+		Cookies.remove('authToken', user.token)
+		deleteUser()
+	}
+	
 
 	return (
 		<div>
@@ -76,6 +83,9 @@ export default function NavbarV() {
 						<IconButton>
 							<MailIcon />
 						</IconButton>
+						<button onClick={logout}>
+							Logout
+						</button>
 					</List>
 				</Toolbar>
 			</AppBar>
@@ -103,10 +113,10 @@ export default function NavbarV() {
 								</div>
 								<div className="col-12">
 									<div className="card-body">
-										<h5 className="card-title">Namedfdsfgggdsgsggdsgsgqsdetretret</h5>
-										<p className="card-text">Function</p>
+										<h5 className="card-title">{user.Name}</h5>
+										<p className="card-text">{user.Fonction}</p>
 										{isUserPermitted(DISPLAY_STRUCTURE, user.Fonction) && (
-											<p className="card-text">Structure</p>
+											<p className="card-text">{user.Libelle_APE}</p>
 										)}
 									</div>
 								</div>

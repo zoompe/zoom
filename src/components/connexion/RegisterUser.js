@@ -94,7 +94,7 @@ const RegisterUser = () => {
               .then(res  =>  res.json())
               .then(
                   res  => setRegister({...register, flash: res.flash}),
-                  err  =>  setRegister({...register, flash: err.flash })
+                  err  => setRegister({...register, flash: err.flash })
               )
     }
     

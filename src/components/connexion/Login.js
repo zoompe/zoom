@@ -1,14 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
+import { SnackbarContent } from '@material-ui/core';
 import './login.css';
 
 
 const Login = () => {
     const { user, logUser } = useContext(UserContext)
+    // const history = useHistory();
    
-    const history = useHistory();
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
     
 
@@ -19,28 +20,23 @@ const Login = () => {
     
   }
 
-//   const log= (event) => {
-//     event.preventDefault();
-//     logUser(login.idgasi)
-    
-//     if (user.isConnected)  {  
-//         history.push({
-//         pathname: '/home/main',
-//     })};
+    useEffect(() => {
+   console.log(user)
+    }, [user])
 
-//   }
+    //  useEffect(() => {
+    //    history.push({pathname: '/home/main'})
+    // }, [user,history])
 
-const log= (event) => {
-    event.preventDefault();
-    console.log(login)
-    logUser(login)
-    
-    // if (user.isConnected)  {  
-    //     history.push({
-    //     pathname: '/home/main',
-    // })};
+    //  useEffect(() => {
+    //     if (user.token.length > 0)  history.push({pathname: '/home/main'})
+    // }, [user,history])
+       
 
-  }
+    const log= (event) => {
+        event.preventDefault();
+        logUser(login)
+    }
 
 
       return (
@@ -91,6 +87,9 @@ const log= (event) => {
                 </div>
             </div>
         </div>
+        <div> 
+                   {user.flash &&  <SnackbarContent message={user.flash} />}
+               </div>
         </div>          
                    
     )
