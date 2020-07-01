@@ -11,10 +11,10 @@ const SelectFonction = ({placeholder,name, handleChange, options}) => (
               <option value='' disabled >{placeholder}</option>
               {options.map(option => ( 
                   <option 
-                    key={option.id_Fonction}
-                    value={option.id_Fonction}
+                    key={option.id_fonction}
+                    value={option.id_fonction}
                     >
-                      {option.Fonction}
+                      {option.fonction}
                   </option>
                 ))}         
             </select>

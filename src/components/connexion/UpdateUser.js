@@ -20,7 +20,7 @@ const UpdateUser = ({ show, handleClose }) => {
 	const history = useHistory();
 
 	const [ register, setRegister ] = useState({
-		function_id: '',
+		fonction_id: '',
 		team_id: null,
 		p_user: '',
 		ape_id: null
@@ -60,44 +60,41 @@ const UpdateUser = ({ show, handleClose }) => {
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
-		if (name === 'function_id') {
+		if (name === 'fonction_id') {
 			setRegister({ ...register, [name]: value, team_id: null, p_user: '', ape_id: null });
 		} else {
 			setRegister({ ...register, [name]: value });
 		}
 	};
 
+	const source = `/auth/update/:${user.idgasi}`;
+	console.log(source)
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.log(register);
 		console.log('Bearer ' + Cookies.get('authToken'));
-		// axios.put(`/auth/profile/:${user.idgasi}`, {
-
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 		Authorization: 'Bearer ' + Cookies.get('authToken')
-		// 	},
-		// 	body: (register)
-		// }).then((res) => res.json());
-
+		
 		axios({
 			method: 'put',
-			url: `/auth/profile/:${user.idgasi}`,
+			url: source,
 			data: register,
 			headers: {
-                "Content-type": "application/json",
+				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		}).then((res) => console.log(res.data));
-    };
-    
+			},
+			
+		})
+		.then((res) =>  console.log(res.data));
+	}
 
-    //     const header = {
-    //     "Content-type": "application/json",
-    //     Authorization: 'Bearer ' + Cookies.get('authToken')
-    //     }
+      
     //     const data = register;
-    //     axios.put(`/auth/profile/:${user.idgasi}`, data, header)
+	// 	axios.put(source, data, 
+	// 		 {
+	// 						'Content-Type': 'application/json',
+	// 						Authorization: 'Bearer ' + Cookies.get('authToken')
+	// 					},)
     //     .then((res) => console.log(res.data));
         
     // };
@@ -118,12 +115,12 @@ const UpdateUser = ({ show, handleClose }) => {
 								<div className="card-body">
 									<form onSubmit={handleSubmit}>
 										<SelectFonction
-											name="function_id"
+											name="fonction_id"
 											options={listFunction} //database
 											handleChange={handleChange}
 											placeholder={'Select fonction'}
 										/>
-										{isUserPermitted(CONSEILLER, register.function_id) && (
+										{isUserPermitted(CONSEILLER, register.fonction_id) && (
 											<div>
 												<SelectTeam
 													name="team_id"
@@ -155,7 +152,7 @@ const UpdateUser = ({ show, handleClose }) => {
 												/>
 											</div>
 										)}
-										{isUserPermitted(ELP, register.function_id) && (
+										{isUserPermitted(ELP, register.fonction_id) && (
 											<div>
 												<SelectTeam
 													name="team_id"

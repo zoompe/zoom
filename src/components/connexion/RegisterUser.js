@@ -16,7 +16,7 @@ const RegisterUser = () => {
     const history = useHistory();
 
     const [ register, setRegister ] = useState({idgasi: '' , name: '',
-    function_id: '', team_id: null , password: '', p_user: '' , ape_id: null , flash:''});
+    fonction_id: '', team_id: null , password: '', p_user: '' , ape_id: null , flash:''});
 
     
     const [ listFunction, SetListFunction] = useState([]);
@@ -60,7 +60,7 @@ const RegisterUser = () => {
     const  handleChange = (event) => { 
         const name = event.target.name;
         const value = event.target.value;
-        if  (name === 'function_id') {
+        if  (name === 'fonction_id') {
         setRegister({...register, [name]: value, team_id: null , p_user: '' , ape_id: null})   
         } 
         else {
@@ -68,21 +68,9 @@ const RegisterUser = () => {
         }
     }
  
-    //   const handleSubmit= (event) => {
-    //     event.preventDefault();
-    //     axios.post('/auth/signup', register)
-    //       .then(response => {
-    //           console.log(response.data)
-    //         setRegister({...register, flash: response.flash })
-    //       })
-    //       .catch(error => {
-    //         setRegister({...register, flash: error.flash })
-    //         console.log(register)
-    //       }) 
-    // }
-
-    const handleSubmit = (event) => {
+      const handleSubmit = (event) => {
          event.preventDefault();
+         console.log(register)
                   fetch("/auth/signup",
               {
                   method:  'POST',
@@ -129,7 +117,7 @@ const RegisterUser = () => {
                             </div>
                             
                                 <SelectFonction
-                               name = 'function_id'
+                               name = 'fonction_id'
                                options = {listFunction} //database
                                handleChange = {handleChange}
                                placeholder = {'Select fonction'}
@@ -142,7 +130,7 @@ const RegisterUser = () => {
                                 name="password" value={register.password} onChange={handleChange}>
                                 </input>
                             </div>
-                            {isUserPermitted(CONSEILLER, register.function_id) &&
+                            {isUserPermitted(CONSEILLER, register.fonction_id) &&
                              <div>
                                <SelectTeam
                                name = 'team_id'
@@ -164,7 +152,7 @@ const RegisterUser = () => {
                                 /> 
                             </div>
                              }
-                            {isUserPermitted(ELP,  register.function_id) &&
+                            {isUserPermitted(ELP,  register.fonction_id) &&
                              <div>
                                 <SelectTeam
                                name = 'team_id'

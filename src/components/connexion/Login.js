@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContent } from '@material-ui/core';
 import './login.css';
@@ -8,7 +7,6 @@ import './login.css';
 
 const Login = () => {
     const { user, logUser } = useContext(UserContext)
-    const history = useHistory();
    
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
     
@@ -20,16 +18,10 @@ const Login = () => {
     
   }
 
-    useEffect(() => {
-   console.log(user)
-    }, [user])
+//     useEffect(() => {
+//    console.log(user)
+//     }, [user])
 
-    // useEffect(() => {
-    //     if (user.token) 
-    //      {history.push({pathname: '/home/main'})}
-    //     else {history.push({pathname: '/'})}}
-    // , [user,history])
-       
 
     const log= (event) => {
         event.preventDefault();
