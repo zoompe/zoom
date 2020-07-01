@@ -11,10 +11,10 @@ const SelectTeam = ({placeholder,name, handleChange, options}) => (
               <option value='' disabled >{placeholder}</option>
               {options.map(option => ( 
                   <option 
-                    key={option.id_Team}
-                    value={option.id_Team}
+                    key={option.id_team}
+                    value={option.id_team}
                     >
-                      {option.Team}
+                      {option.team}
                   </option>
                 ))}         
             </select>

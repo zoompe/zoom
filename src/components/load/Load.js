@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CSVReader from "react-csv-reader";
+import Cookies from 'js-cookie';
 // import "./App.css";
 import Loader from "./Loader";
 // import CsvError from "./components/csvError";
@@ -31,13 +32,13 @@ class Load extends Component {
 
     let d = JSON.stringify({ ...data });
 
-
-
-    fetch("http://localhost:3001/api/load", {
+    fetch("/load", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: 'Bearer ' + Cookies.get('authToken')
+
       },
       body: d,
     })

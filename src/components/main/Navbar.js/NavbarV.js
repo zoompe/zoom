@@ -51,55 +51,113 @@ export default function NavbarV() {
 
 	const logout = () => {
 		Cookies.remove('authToken', user.token);
+		history.push({ pathname: '/' })
 		deleteUser();
-		history.push({ pathname: '/' });
 	};
 
-	const [ countPort, setCountPort ] = useState(0);
+	const [ countPort, setCountPort ] = useState([]);
+	const [ countEfo, setCountEfo ] = useState([]);
+	const [ source, setSource ] = useState('');
+	const [ sourceEfo, setSourceEfo ] = useState('');
 
     //count nav bar portefeuille
-    // const getCountPort = (function_id, p_user,ape_id) => {
-    //     let source = ''
-    //     switch (function_id) {
-    //         //conseiller
-    //         case "1":
-    //             source = `/count/portefeuille?dc_dernieragentreferent=${p_user}`
-    //             break;
-    //         //ELP    
-    //         case "2":
-    //             source = `/count/portefeuille?dc_dernieragentreferent=${ape_id}`
-    //             break;
-    //         //DTNE    
-    //         case "3":
-    //             source = `/count/portefeuille?/count/portefeuille?dt=DTNE`
-    //             break;
-    //         //DTSO    
-    //         case "4":
-    //             source = `/count/portefeuille?/count/portefeuille?dt=DTSO`
-    //             break;
+    const getCountPort = (fonction_id, p_user,ape_id) => {
+		console.log(fonction_id)
+        switch (fonction_id) {
+            //conseiller
+            case 1:
+                setSource(`/count/portefeuille?dc_dernieragentreferent=${p_user}`)
+                break;
+            //ELP    
+            case 2:
+                setSource(`/count/portefeuille?dc_structureprincipalede=${ape_id}`)
+                break;
+            //DTNE    
+            case 3:
+                setSource( `/count/portefeuille?/count/portefeuille?dt=DTNE`)
+                break;
+            //DTSO    
+            case 4:
+                setSource( `/count/portefeuille?/count/portefeuille?dt=DTSO`)
+                break;
                 
-    //         //DR ADMIN
-    //         case "5":
-    //         case "6":
-    //             source = `/count/portefeuille?/count/portefeuille`
-    //             break;
+            //DR ADMIN
+            case 5:
+            case 6:
+                setSource(`/count/portefeuille`)
+                break;
                 
-    //         default : console.log('function_id missing') ;
-	// 	 }
-	// 	}
+            default : console.log('function_id missing') ;
+		 }
+		}
 
-	// 	useEffect(() => {
-	// 		axios({
-	// 			method: 'get',
-	// 			url: getCountPort(user.function_id, user.p_user,user.ape_id),
-	// 			headers: {
-	// 				Authorization: 'Bearer ' + Cookies.get('authToken')
-	// 			}
-	// 		})
-	// 		  .then((res) =>  setCountPort(res.data))
-	// 	}, [user.function_id, user.p_user,user.ape_id])
+		useEffect(() => {
+			 getCountPort(user.fonction_id, user.p_user,user.ape_id)
+			 console.log('source=' + source)
+			 if(source !== ''){
+			 axios({
+				method: 'get',
+				url: source,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setCountPort(res.data[0].nb))
+		}
+	}
+		, [user.fonction_id, user.p_user,user.ape_id,source])
+
+
+    //count nav bar efo
+    const getCountEfo = (fonction_id, p_user,ape_id) => {
+        switch (fonction_id) {
+            //conseiller
+            case 1:
+                setSourceEfo(`/count/efo?dc_dernieragentreferent=${p_user}`)
+                break;
+            //ELP    
+            case 2:
+                setSourceEfo(`/count/efo?dc_structureprincipalede==${ape_id}`)
+                break;
+            //DTNE    
+            case 3:
+                setSourceEfo( `/count/efo?dt=DTNE`)
+                break;
+            //DTSO    
+            case 4:
+                setSourceEfo( `/count/efo?dt=DTSO`)
+                break;
+                
+            //DR ADMIN
+            case 5:
+            case 6:
+                setSourceEfo(`/count/efo`)
+                break;
+                
+            default : console.log('function_id missing') ;
+		 }
+		}
+
+		useEffect(() => {
+			 getCountEfo(user.fonction_id, user.p_user,user.ape_id)
+			 console.log('sourceefo=' + sourceEfo)
+			 if(sourceEfo !== ''){
+			 axios({
+				method: 'get',
+				url: sourceEfo,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setCountEfo(res.data[0].nb))
+		}
+	}
+		, [user.fonction_id, user.p_user,user.ape_id,sourceEfo])
 
 	console.log('Navbar user information: ', user)
+	console.log('Navbar count: ', countPort)
+	console.log('Navbar countefo: ', countEfo)
+
 	return (
 		<div>
 			<CssBaseline />
@@ -201,7 +259,7 @@ export default function NavbarV() {
 								id="panel2bh-header"
 							>
 								<Typography className={classesP.heading}>EFO</Typography>
-								<Typography className={classesP.secondaryHeading}>30000</Typography>
+								<Typography className={classesP.secondaryHeading}>{countEfo}</Typography>
 							</ExpansionPanelSummary>
 							<ExpansionPanelDetails>
 								<ListItem>

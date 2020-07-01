@@ -11,10 +11,10 @@ const SelectStructure = ({placeholder,name, handleChange, options}) => (
               <option value='' disabled >{placeholder}</option>
               {options.map(option => ( 
                   <option 
-                    key={option.id_APE}
-                    value={option.id_APE}
+                    key={option.id_ape}
+                    value={option.id_ape}
                     >
-                      {option.Libelle_APE}
+                      {option.libelle_ape}
                   </option>
                 ))}         
             </select>
