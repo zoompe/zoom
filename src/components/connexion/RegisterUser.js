@@ -1,32 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SnackbarContent } from '@material-ui/core';
 import Select from '../shared/Select';
+import SelectFonction from './Select/SelectFonction';
+import SelectTeam from './Select/SelectTeam';
+import SelectStructure from './Select/SelectStructure';
 import { isUserPermitted } from '../../utils/permissions';
 import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import './registerUser.css';
 
 const RegisterUser = () => {
 
+    const history = useHistory();
 
-    const [ register, setRegister ] = useState({idgasi: '' , name: '', 
-    function: '', password: '', team: '', user: '' , structure:''});
+    const [ register, setRegister ] = useState({idgasi: '' , name: '',
+    function_id: '', team_id: null , password: '', p_user: '' , ape_id: null , flash:''});
 
-    const  handleChange = (event) => {
+    
+    const [ listFunction, SetListFunction] = useState([]);
+    const [ listTeam, SetListTeam] = useState([]);
+    const [ listAPE, SetListAPE] = useState([]);
+    const [ listPuser, SetListPuser] = useState([]);
+
+   // load datas from database - Mimic ComponentDidMount
+    useEffect(() => {
+    axios.get('/fonctions')
+    .then(res => { 
+        SetListFunction(res.data);
+    })
+    }, [])
+    useEffect(() => {
+        axios.get('/teams')
+        .then(res => { 
+            SetListTeam(res.data);
+        })
+        }, [])
+    useEffect(() => {
+        axios.get('/apes')
+        .then(res => { 
+            SetListAPE(res.data);
+        })
+        }, [])
+    useEffect(() => {
+        axios.get('/pusers')
+        .then(res => { 
+            SetListPuser(res.data.map(el => el.dc_dernieragentreferent));
+        })
+        }, []) 
+        
+   
+        useEffect(() => {
+            if (register.flash === 'User has been signed up !') history.push({pathname: '/'})
+        }, [register,history])    
+
+
+
+    const  handleChange = (event) => { 
         const name = event.target.name;
         const value = event.target.value;
+        if  (name === 'function_id') {
+        setRegister({...register, [name]: value, team_id: null , p_user: '' , ape_id: null})   
+        } 
+        else {
         setRegister({...register, [name]: value })
-        
-      }
+        }
+    }
+ 
+    //   const handleSubmit= (event) => {
+    //     event.preventDefault();
+    //     axios.post('/auth/signup', register)
+    //       .then(response => {
+    //           console.log(response.data)
+    //         setRegister({...register, flash: response.flash })
+    //       })
+    //       .catch(error => {
+    //         setRegister({...register, flash: error.flash })
+    //         console.log(register)
+    //       }) 
+    // }
+
+    const handleSubmit = (event) => {
+         event.preventDefault();
+                  fetch("/auth/signup",
+              {
+                  method:  'POST',
+                  headers:  new  Headers({
+                      'Content-Type':  'application/json'
+                  }),
+                  body:  JSON.stringify(register),
+              })
+              .then(res  =>  res.json())
+              .then(
+                  res  => setRegister({...register, flash: res.flash}),
+                  err  => setRegister({...register, flash: err.flash })
+              )
+    }
     
-      const regist= (event) => {
-        event.preventDefault();
-        console.log(register)
-      //do someting
-    
-      }  
 
-
-
+      
       return (
         <div className="login">
         <div className="container">
@@ -36,7 +109,7 @@ const RegisterUser = () => {
                         <h3>Register</h3>
                     </div>
                     <div className="card-body">
-                        <form onSubmit={regist}>
+                        <form onSubmit={handleSubmit}>
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text"><i className="fas fa-user"></i></span>
@@ -55,11 +128,11 @@ const RegisterUser = () => {
                                 </input>
                             </div>
                             
-                                <Select 
-                               name = 'function' 
-                               options = {['Conseiller','ELP','DTNE', 'DTSO', 'DR' ]} //database
-                               value = {register.function}
+                                <SelectFonction
+                               name = 'function_id'
+                               options = {listFunction} //database
                                handleChange = {handleChange}
+                               placeholder = {'Select fonction'}
                                 />  
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
@@ -69,43 +142,42 @@ const RegisterUser = () => {
                                 name="password" value={register.password} onChange={handleChange}>
                                 </input>
                             </div>
-                            {isUserPermitted(CONSEILLER, register.function) &&
+                            {isUserPermitted(CONSEILLER, register.function_id) &&
                              <div>
-                                <Select 
-                                name = 'team' 
-                                options = {['Equipe 1','Equipe 2','Equipe 3', 'Equipe 4' ]} //database
-                                value = {register.team}
-                                handleChange = {handleChange}
-                                />
-                                <Select 
-                                name = 'user' 
-                                options = {['P000617 - XXXX','P000294 - XXXX','P000131 - XXXX', 'P000530 - XXXX' ]} //database
-                                value = {register.user}
-                                handleChange = {handleChange}
-                                />
-                                <Select 
-                                name = 'structure' 
-                                options = {['97801','97802','97803', '97804' ]} //database
-                                value = {register.structure}
-                                handleChange = {handleChange}
+                               <SelectTeam
+                               name = 'team_id'
+                               options = {listTeam} //database
+                               handleChange = {handleChange}
+                               placeholder = {'Select team'}
                                 /> 
-                              
+                                <Select 
+                                name = 'p_user' 
+                                options = {listPuser} //database
+                                value = {register.p_user}
+                                handleChange = {handleChange}
+                                />
+                                <SelectStructure
+                               name = 'ape_id'
+                               options = {listAPE} //database
+                               handleChange = {handleChange}
+                               placeholder = {'Select APE'}
+                                /> 
                             </div>
-                            }
-                            {isUserPermitted(ELP,  register.function) &&
+                             }
+                            {isUserPermitted(ELP,  register.function_id) &&
                              <div>
-                                <Select 
-                                name = 'team' 
-                                options = {['Equipe 1','Equipe 2','Equipe 3', 'Equipe 4' ]} //database
-                                value = {register.team}
-                                handleChange = {handleChange}
-                                />
-                                <Select 
-                                name = 'structure' 
-                                options = {['97801','97802','97803', '97804' ]} //database
-                                value = {register.structure}
-                                handleChange = {handleChange}
+                                <SelectTeam
+                               name = 'team_id'
+                               options = {listTeam} //database
+                               handleChange = {handleChange}
+                               placeholder = {'Select team'}
                                 /> 
+                                <SelectStructure
+                               name = 'ape_id'
+                               options = {listAPE} //database
+                               handleChange = {handleChange}
+                               placeholder = {'Select APE'}
+                                />  
                               
                             </div>
                             }
@@ -124,6 +196,9 @@ const RegisterUser = () => {
                 </div>
             </div>
         </div>
+                <div> 
+                   {register.flash &&  <SnackbarContent message={register.flash} />}
+               </div>
         </div>          
                    
     )

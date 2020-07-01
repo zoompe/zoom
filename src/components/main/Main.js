@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 
 import clsx from 'clsx';
-import useStyles from '../shared/navbarV/filesForMaterialUi/useStyles';
-import NavbarV from '../shared/navbarV/NavbarV';
+import useStyles from './Navbar.js/filesForMaterialUi/useStyles';
+import NavbarV from './Navbar.js/NavbarV';
 import { NavContext } from '../../contexts/NavContext';
+import UpdateUser from '../connexion/UpdateUser';
 
 const Main = (props) => {
 	const classes = useStyles();
-	const { open } = useContext(NavContext);
+	const { open, show, handleClose } = useContext(NavContext);
 
 	return (
 		<div className={classes.root}>
@@ -20,7 +21,13 @@ const Main = (props) => {
 			>
 				<div className={classes.drawerHeader} />
 				{props.children}
+				
+				<UpdateUser
+					show = {show}
+					handleClose = {handleClose}
+					/>
 			</main>
+			
 		</div>
 	);
 };
