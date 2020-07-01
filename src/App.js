@@ -11,6 +11,9 @@ import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
 import Jalons from './components/wallet/jalons/Jalons';
 import Load from './components/load/Load';
+import UpdateUser from './components/connexion/UpdateUser';
+import PrivateRoute from './hoc/PrivateRoute'
+
 
 function App() {
 	return (
@@ -24,12 +27,14 @@ function App() {
 							path="/home/:route"
 							render={() => (
 								<Main>
-									<Route path="home/main" component={Main} />
-									<Route path="/home/diag" component={Diag} />
-									<Route path="/home/jalons" component={Jalons} />
-									<Route path="/home/efo" component={Efo} />
-									<Route path="/home/contacts" component={Contacts} />
-									<Route path="/home/Load" component={Load} />
+									<PrivateRoute path="home/main" component={Main}/>
+									{/* <Route path="home/main" component={Main} /> */}
+									<PrivateRoute path="/home/diag" component={Diag} />
+									<PrivateRoute path="/home/jalons" component={Jalons} />
+									<PrivateRoute path="/home/efo" component={Efo} />
+									<PrivateRoute path="/home/contacts" component={Contacts} />
+									<PrivateRoute path="/home/Load" component={Load} />
+									<PrivateRoute path="/home/user" component={UpdateUser} />
 								</Main>
 							)}
 						/>

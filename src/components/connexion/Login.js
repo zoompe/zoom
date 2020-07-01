@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContent } from '@material-ui/core';
 import './login.css';
@@ -8,7 +8,7 @@ import './login.css';
 
 const Login = () => {
     const { user, logUser } = useContext(UserContext)
-    // const history = useHistory();
+    const history = useHistory();
    
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
     
@@ -24,13 +24,11 @@ const Login = () => {
    console.log(user)
     }, [user])
 
-    //  useEffect(() => {
-    //    history.push({pathname: '/home/main'})
-    // }, [user,history])
-
-    //  useEffect(() => {
-    //     if (user.token.length > 0)  history.push({pathname: '/home/main'})
-    // }, [user,history])
+    // useEffect(() => {
+    //     if (user.token) 
+    //      {history.push({pathname: '/home/main'})}
+    //     else {history.push({pathname: '/'})}}
+    // , [user,history])
        
 
     const log= (event) => {

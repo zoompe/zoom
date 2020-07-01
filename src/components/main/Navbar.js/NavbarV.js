@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -29,6 +29,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import './navbarV.css';
 
 export default function NavbarV() {
@@ -36,22 +38,68 @@ export default function NavbarV() {
 	const classesP = useStylesPanel();
 	const theme = useTheme();
 
-	const { open, handleDrawerOpen, handleDrawerClose } = useContext(NavContext);
+	const { open, handleDrawerOpen, handleDrawerClose, handleShow } = useContext(NavContext);
 	const { user, deleteUser } = useContext(UserContext);
-	
 
 	const [ expanded, setExpanded ] = React.useState(false);
 
 	const handleChange = (panel) => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
-	}
+	};
 
-	const logout = ()	=> {
-		Cookies.remove('authToken', user.token)
-		deleteUser()
-	}
-	
+	const history = useHistory();
 
+	const logout = () => {
+		Cookies.remove('authToken', user.token);
+		deleteUser();
+		history.push({ pathname: '/' });
+	};
+
+	const [ countPort, setCountPort ] = useState(0);
+
+    //count nav bar portefeuille
+    // const getCountPort = (function_id, p_user,ape_id) => {
+    //     let source = ''
+    //     switch (function_id) {
+    //         //conseiller
+    //         case "1":
+    //             source = `/count/portefeuille?dc_dernieragentreferent=${p_user}`
+    //             break;
+    //         //ELP    
+    //         case "2":
+    //             source = `/count/portefeuille?dc_dernieragentreferent=${ape_id}`
+    //             break;
+    //         //DTNE    
+    //         case "3":
+    //             source = `/count/portefeuille?/count/portefeuille?dt=DTNE`
+    //             break;
+    //         //DTSO    
+    //         case "4":
+    //             source = `/count/portefeuille?/count/portefeuille?dt=DTSO`
+    //             break;
+                
+    //         //DR ADMIN
+    //         case "5":
+    //         case "6":
+    //             source = `/count/portefeuille?/count/portefeuille`
+    //             break;
+                
+    //         default : console.log('function_id missing') ;
+	// 	 }
+	// 	}
+
+	// 	useEffect(() => {
+	// 		axios({
+	// 			method: 'get',
+	// 			url: getCountPort(user.function_id, user.p_user,user.ape_id),
+	// 			headers: {
+	// 				Authorization: 'Bearer ' + Cookies.get('authToken')
+	// 			}
+	// 		})
+	// 		  .then((res) =>  setCountPort(res.data))
+	// 	}, [user.function_id, user.p_user,user.ape_id])
+
+	console.log('Navbar user information: ', user)
 	return (
 		<div>
 			<CssBaseline />
@@ -83,9 +131,7 @@ export default function NavbarV() {
 						<IconButton>
 							<MailIcon />
 						</IconButton>
-						<button onClick={logout}>
-							Logout
-						</button>
+						<button onClick={logout}>Logout</button>
 					</List>
 				</Toolbar>
 			</AppBar>
@@ -105,18 +151,19 @@ export default function NavbarV() {
 				</div>
 				<Divider />
 				<List>
-					<ListItem button>
+					<ListItem button onClick={handleShow}>
 						<div className="card mb-3">
 							<div className="row no-gutters">
 								<div className="col-8">
-									<Avatar src="/broken-image.jpg" />
+									{/* TODO: Understand why broken image is not functioning */}
+									{/* <Avatar src="/broken-image.jpg" /> */}
 								</div>
 								<div className="col-12">
 									<div className="card-body">
-										<h5 className="card-title">{user.Name}</h5>
-										<p className="card-text">{user.Fonction}</p>
-										{isUserPermitted(DISPLAY_STRUCTURE, user.Fonction) && (
-											<p className="card-text">{user.Libelle_APE}</p>
+										<h5 className="card-title">{user.name}</h5>
+										<p className="card-text">{user.fonction}</p>
+										{isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
+											<p className="card-text">{user.libelle_ape}</p>
 										)}
 									</div>
 								</div>
@@ -132,7 +179,7 @@ export default function NavbarV() {
 								id="panel1bh-header"
 							>
 								<Typography className={classesP.heading}>Portefeuille</Typography>
-								<Typography className={classesP.secondaryHeading}>200000</Typography>
+								<Typography className={classesP.secondaryHeading}>{countPort}</Typography>
 							</ExpansionPanelSummary>
 							<ExpansionPanelDetails>
 								<ListItem>
@@ -181,10 +228,12 @@ export default function NavbarV() {
 							</ExpansionPanelDetails>
 						</ExpansionPanel>
 					</div>
-					<ListItem>{isUserPermitted(LOAD_DATA, user.Fonction) && 
-									<Link className="" to="load">
-										Load
-									</Link>}
+					<ListItem>
+						{isUserPermitted(LOAD_DATA, user.fonction) && (
+							<Link className="" to="load">
+								Load
+							</Link>
+						)}
 					</ListItem>
 				</List>
 			</Drawer>
