@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContent } from '@material-ui/core';
+import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 import './login.css';
 
 
@@ -9,6 +11,8 @@ const Login = () => {
     const { user, logUser } = useContext(UserContext)
    
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
+
+    const history = useHistory();
     
 
  const  handleChange = (event) => {
@@ -17,6 +21,13 @@ const Login = () => {
     setLogin({...login, [name]: value })
     
   }
+
+    useEffect(() => {
+        if (Cookies.get('authToken')) 
+        {history.push({pathname: '/home/main'})}
+        else {history.push({pathname: '/'})}
+    }
+    , [user,history])
 
 //     useEffect(() => {
 //    console.log(user)
