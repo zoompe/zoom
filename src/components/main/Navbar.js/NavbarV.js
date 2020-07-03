@@ -74,11 +74,11 @@ export default function NavbarV() {
                 break;
             //DTNE    
             case 3:
-                setSource( `/count/portefeuille?/count/portefeuille?dt=DTNE`)
+                setSource( `/count/portefeuille?dt=DTNE`)
                 break;
             //DTSO    
             case 4:
-                setSource( `/count/portefeuille?/count/portefeuille?dt=DTSO`)
+                setSource( `/count/portefeuille?dt=DTSO`)
                 break;
                 
             //DR ADMIN
@@ -103,6 +103,7 @@ export default function NavbarV() {
 				}
 			})
 			.then((res) =>  setCountPort(res.data[0].nb))
+			
 		}
 	}
 		, [user.fonction_id, user.p_user,user.ape_id,source])
@@ -115,9 +116,9 @@ export default function NavbarV() {
             case 1:
                 setSourceEfo(`/count/efo?dc_dernieragentreferent=${p_user}`)
                 break;
-            //ELP    
+			//ELP   
             case 2:
-                setSourceEfo(`/count/efo?dc_structureprincipalede==${ape_id}`)
+                setSourceEfo(`/count/efo?dc_structureprincipalede=${ape_id}`)
                 break;
             //DTNE    
             case 3:

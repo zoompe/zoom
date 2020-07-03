@@ -16,7 +16,7 @@ import Cookies from 'js-cookie';
 import './registerUser.css';
 
 const UpdateUser = ({ show, handleClose }) => {
-	const { user } = useContext(UserContext);
+	const { user , deleteUser } = useContext(UserContext);
 	const history = useHistory();
 
 	const [ register, setRegister ] = useState({
@@ -53,9 +53,15 @@ const UpdateUser = ({ show, handleClose }) => {
 		});
 	}, []);
 
-	// useEffect(() => {
-	//     if (register.flash === 'User has been signed up !') history.push({pathname: '/'})
-	// }, [register,history])
+
+	useEffect(() => {
+		if (register.flash === 'User updated!'){
+		Cookies.remove('authToken', user.token);
+		handleClose()
+	    history.push({ pathname: '/' })
+		deleteUser()
+	}
+	}, [register.flash, history, user.token, deleteUser,handleClose])
 
 	const handleChange = (event) => {
 		const name = event.target.name;
@@ -67,7 +73,7 @@ const UpdateUser = ({ show, handleClose }) => {
 		}
 	};
 
-	const source = `/auth/update/:${user.idgasi}`;
+	const source = `/auth/update/${user.idgasi}`
 	console.log(source)
 
 	const handleSubmit = (event) => {
@@ -85,20 +91,10 @@ const UpdateUser = ({ show, handleClose }) => {
 			},
 			
 		})
-		.then((res) =>  console.log(res.data));
+		.then((res) =>  setRegister(res.data));
 	}
 
-      
-    //     const data = register;
-	// 	axios.put(source, data, 
-	// 		 {
-	// 						'Content-Type': 'application/json',
-	// 						Authorization: 'Bearer ' + Cookies.get('authToken')
-	// 					},)
-    //     .then((res) => console.log(res.data));
-        
-    // };
-
+ 
 	return (
 		<Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
 			<Modal.Header closeButton>

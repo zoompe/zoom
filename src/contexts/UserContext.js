@@ -1,22 +1,24 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 
 
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
-    const [ user, setUser ] = useState({});
-    const history = useHistory();
+	
+	const [ user, setUser ] = useState({});
+	
+    // const history = useHistory();
     
-    useEffect(() => {
-        if (Cookies.get('authToken')) 
-         {history.push({pathname: '/home/main'})}
-        else {history.push({pathname: '/'})}
-    }
-    , [user,history])
+    // useEffect(() => {
+    //     if (Cookies.get('authToken')) 
+    //      {history.push({pathname: '/home/main'})}
+    //     else {history.push({pathname: '/'})}
+    // }
+    // , [user,history])
 
     
 	useEffect(() => {

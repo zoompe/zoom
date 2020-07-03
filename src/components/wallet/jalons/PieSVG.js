@@ -1,11 +1,11 @@
 import React from "react";
 import * as d3 from "d3";
 
-// const couleur=['#dc3545','#dc32345','#dc3545','#dc3545','#dc3545']
+const couleur = ['#6D6875','#B5838D','#E5989B','#FFB4A2','#FFCDB2']
 
-const Arc = ({ data, index, createArc, colors, format }) => (
+const Arc = ({ data, index, createArc, format }) => (
   <g key={index} className="arc">
-    <path className="arc" d={createArc(data)} fill={colors(index)} />
+    <path className="arc" d={createArc(data)} fill={couleur[index]} />
     <text
       transform={`translate(${createArc.centroid(data)})`}
       textAnchor="middle"

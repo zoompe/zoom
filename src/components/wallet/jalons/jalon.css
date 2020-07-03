@@ -1,0 +1,27 @@
+.container-jalon {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+ 
+        }
+/* .box {
+    margin: 5px;
+} */
+
+.color1 {
+    background-color:#6D6875
+}
+.color2 {
+    background-color:#B5838D
+}
+.color3 {
+    background-color:#E5989B
+}
+.color4 {
+    background-color:#FFB4A2
+}
+.color5 {
+    background-color:#FFCDB2
+}
+
+
