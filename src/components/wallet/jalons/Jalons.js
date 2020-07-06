@@ -62,7 +62,8 @@ const Jalons = () => {
 			.then((res) =>  setDataJalon(res.data))
 		}
 	}
-		, [user.fonction_id, user.p_user,user.ape_id,sourceJalon])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		, [sourceJalon])
 
 	
 	const builtdatachart = () => {
