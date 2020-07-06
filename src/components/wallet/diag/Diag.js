@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Pmp from './onglets/Pmp';
+import Re from './onglets/Re';
+import Freins from './onglets/Freins';
 import { UserContext } from '../../../contexts/UserContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -8,6 +10,9 @@ import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import './diag.css'
+
+
 
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
@@ -59,6 +64,7 @@ const Diag = () => {
 
 	const [ dataDiag, setDataDiag ] = useState([]);
 	const [ sourceUser, setSourceUser ] = useState('');
+	const [ displayAll, setDisplayAll ] = useState(false)
 
 	const [ dataDiagMod, setDataDiagMod ] = useState({
 colonne40 : "B",
@@ -74,6 +80,33 @@ colonne49 : "B",
 colonne50 : "B",
 colonne51 : "B",
 colonne163 : "B",
+colonne64 : "B",
+colonne65 : "B",
+colonne66 : "B",
+colonne80 : "B",
+colonne82 : "B",
+colonne83 : "B",
+colonne84 : "B",
+colonne85 : "B",
+colonne86 : "B",
+colonne95 : "B",
+colonne96 : "B",
+colonne97 : "B",
+colonne98 : "B",
+colonne99 : "B",
+colonne143: "B",
+colonne144: "B",
+colonne145: "B",
+colonne146: "B",
+colonne147: "B",
+colonne160: "B",
+colonne109: "O",
+colonne113: "O",
+colonne117: "O",
+colonne122: "O",
+colonne127: "O",
+colonne136: "O",
+colonne140: "O",
 	})
 
 	//to do
@@ -93,9 +126,34 @@ colonne163 : "B",
 		"/count/diag?colonne50=",
 		"/count/diag?colonne51=",
 		"/count/diag?colonne163=",
+		"/count/diag?colonne64=",
+		"/count/diag?colonne65=",
+		"/count/diag?colonne66=",
+		"/count/diag?colonne80=",
+		"/count/diag?colonne82=",
+		"/count/diag?colonne83=",
+		"/count/diag?colonne84=",
+		"/count/diag?colonne85=",
+		"/count/diag?colonne86=",
+		"/count/diag?colonne95=",
+		"/count/diag?colonne96=",
+		"/count/diag?colonne97=",
+		"/count/diag?colonne98=",
+		"/count/diag?colonne99=",
+		"/count/diag?colonne143=",
+		"/count/diag?colonne144=",
+		"/count/diag?colonne145=",
+		"/count/diag?colonne146=",
+		"/count/diag?colonne147=",
+		"/count/diag?colonne160=",
+		"/count/diag?colonne109=",
+		"/count/diag?colonne113=",
+		"/count/diag?colonne117=",
+		"/count/diag?colonne122=",
+		"/count/diag?colonne127=",
+		"/count/diag?colonne136=",
+		"/count/diag?colonne140=",
 	]
-
-	
 
 	useEffect(() => {
 		console.log ("ttt")
@@ -117,6 +175,7 @@ colonne163 : "B",
 	}
 	setDataDiag(tempo)
 	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceUser,user.fonction_id])
 
 
@@ -171,8 +230,36 @@ colonne163 : "B",
         const name = event.target.name;
 		const value = event.target.value;
 		setDataDiagMod({...dataDiagMod, [name]: value })
+		changeOne(name,value)
 	}
 
+	function updateOne(arr, namecol, newvalue) {
+		const look = arr.map(el => {
+			if(el.name === namecol){
+				el.nb = newvalue
+			}
+			return el
+		})
+		return look;
+	}
+
+	const changeOne = (namecol,val) => {
+		const sourceone = `/count/diag?${namecol}=${val}` + sourceUser
+	
+		console.log(sourceone)
+		axios({
+		   method: 'get',
+		   url: sourceone,
+		   headers: {
+			   Authorization: 'Bearer ' + Cookies.get('authToken')
+		   }
+	   })
+	   .then(res => {
+		   const copie = dataDiag
+		   const updated = updateOne(copie, namecol, res.data[0].nb)
+		   setDataDiag(updated)
+		})
+	}	
 	//select one
 	  const handleClick = (event, name) => {
 		const selectedIndex = selected.indexOf(name);
@@ -193,6 +280,14 @@ colonne163 : "B",
 		setSelected(newSelected);
 	  }; 
 	  //end 
+
+	  useEffect(() => {
+		 if (dataDiag.length>39){
+			setDisplayAll(true)
+			}
+			else{
+			setDisplayAll(false)}
+		}, [dataDiag])
 	
 	const test =() => {
 		console.log(dataDiagMod)
@@ -204,22 +299,48 @@ colonne163 : "B",
 	<div>
 		<button onClick={test}>test</button>
 	<h1>Photo Diag DE en portefeuille</h1>
-	<button onClick={choice1}>Projet et mobilité professionnelle</button>
-	<button onClick={choice2}>Recherche d'emploi</button>
-	<button onClick={choice3}>Freins périphériques à l'emploi</button>
+	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
+	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>
+	<button className={choice===3 ? "on" : "off"}onClick={choice3}>Freins périphériques à l'emploi</button>
 
 	<EnhancedTableToolbar numSelected={selected.length} />
+	
+	{(!displayAll) &&
+	<div>Chargement en cours {dataDiag.length} sur 40 </div> 
+	}
 	
 	{(choice===1) && <Pmp 
 	dataDiagMod={dataDiagMod}
 	handleChangeMod={handleChangeMod}
-	dataDiag={dataDiag}
+	dataDiag1={dataDiag.filter(el => el.groupe2 === 'Profil et situation')}
+	dataDiag2={dataDiag.filter(el => el.groupe2 === 'Projet professionnel')}
+	dataDiag3={dataDiag.filter(el => el.groupe2 === 'Marché du travail, environnement professionnel')}
 	selected={selected}
 	handleClick={handleClick}
-	/>
-	
+	choice={choice}
+	/>}
+	{(choice===2) && <Re
+		dataDiagMod={dataDiagMod}
+		handleChangeMod={handleChangeMod}
+		dataDiag1={dataDiag.filter(el => el.groupe2 === 'Stratégie')}
+		dataDiag2={dataDiag.filter(el => el.groupe2 === 'Techniques')}
+		dataDiag3={dataDiag.filter(el => el.groupe2 === 'Capacités numériques')}
+		dataDiag4={dataDiag.filter(el => el.groupe2 === "Retour direct à l'emploi")}
+		selected={selected}
+		handleClick={handleClick}
+		choice={choice}
+		/>
 	}
-	
+	{(choice===3) && <Freins
+		dataDiagMod={dataDiagMod}
+		handleChangeMod={handleChangeMod}
+		dataDiag1={dataDiag.filter(el => el.groupe2 === "Freins périphériques à l'emploi")}
+		selected={selected}
+		handleClick={handleClick}
+		choice={choice}
+		/>
+	}
+
 	</div>
 	)};
 

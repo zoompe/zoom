@@ -34,11 +34,11 @@ const Tabs = props => {
   );
 };
 
-export default function Pmp({dataDiagMod,handleChangeMod,dataDiag1,dataDiag2,dataDiag3,selected,handleClick,choice}) {
+export default function Re({dataDiagMod,handleChangeMod,dataDiag1,dataDiag2,dataDiag3,dataDiag4,selected,handleClick,choice}) {
   return (
     <div className="App">
       <Tabs>
-        <div title="Profil et situation">
+        <div title="Stratégie">
             <Onglet 
             dataDiagMod ={dataDiagMod}
             handleChangeMod={handleChangeMod}
@@ -48,7 +48,7 @@ export default function Pmp({dataDiagMod,handleChangeMod,dataDiag1,dataDiag2,dat
             choice={choice}
         />
         </div>
-        <div title="Projet professionnel">
+        <div title="Techniques">
         <Onglet 
             dataDiagMod ={dataDiagMod}
             handleChangeMod={handleChangeMod}
@@ -58,11 +58,21 @@ export default function Pmp({dataDiagMod,handleChangeMod,dataDiag1,dataDiag2,dat
             choice={choice}
         />
         </div>
-        <div title="Marché du travail, environnement professionnel">
+        <div title="Capacités numériques">
         <Onglet 
             dataDiagMod ={dataDiagMod}
             handleChangeMod={handleChangeMod}
             dataDiag={dataDiag3}
+            selected={selected}
+            handleClick={handleClick}
+            choice={choice}
+        />
+        </div>
+        <div title="Retour direct à l'emploi">
+        <Onglet 
+            dataDiagMod ={dataDiagMod}
+            handleChangeMod={handleChangeMod}
+            dataDiag={dataDiag4}
             selected={selected}
             handleClick={handleClick}
             choice={choice}

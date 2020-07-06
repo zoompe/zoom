@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import { namefield } from '../../../../../utils/diagNameColonne';
-// import Select from '../../../../shared/Select';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profil({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick}) {
+export default function Onglet({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick,choice}) {
   const classes = useStyles();
 
 
@@ -46,7 +45,7 @@ export default function Profil({dataDiagMod,handleChangeMod,dataDiag,selected,ha
 
   return (
     <>
-    {(dataDiag.length === 13) && (
+    {(dataDiag.length > 0) && (
     <div className={classes.root}>
         <button onClick={test}>test</button>
       <Paper className={classes.paper}>
@@ -84,28 +83,32 @@ export default function Profil({dataDiagMod,handleChangeMod,dataDiag,selected,ha
                         {namefield(row.name)}
                       </TableCell >
                       <TableCell>
+                      {(choice===3) ?
                       <select required="required"
-                        name={Object.keys(dataDiagMod)[index]}
-                        // value={dataDiagMod[index]}
+                        name={row.name}
                         onChange={handleChangeMod}
-                        defaultValue={dataDiagMod[index]}
+                        defaultValue={dataDiagMod[row.name]}
                         >
-                        {['B','PA','NE','NS'].map(option => (
+                        {['O','N','NA','NS'].map(option => (
                             <option
                                 key={option}
-                                value={dataDiagMod[index]}
                                 >{option}
                             </option>
                             ))}         
                         </select>
-                            
-                         {/* <Select 
-                         name = {Object.keys(dataDiagMod)[index]}
-                         options = {['B','PA','NE','NS']}
-                         value = {dataDiagMod[index]}
-                         handleChange = {handleChangeMod}
-                         /> */}
-
+                         :
+                        <select required="required"
+                        name={row.name}
+                        onChange={handleChangeMod}
+                        defaultValue={dataDiagMod[row.name]}
+                        >
+                        {['B','PA','NE','NS'].map(option => (
+                            <option
+                                key={option}
+                                >{option}
+                            </option>
+                            ))}         
+                        </select>}
                       </TableCell>
                     <TableCell align="right">{row[Object.keys(dataDiag[0])[1]]}</TableCell>
                     </TableRow>
@@ -114,6 +117,11 @@ export default function Profil({dataDiagMod,handleChangeMod,dataDiag,selected,ha
             </TableBody>
           </Table>
         </TableContainer>
+        {(choice===3) ?
+        <div>O: Oui, N: Non, NA: Non abordé, NS: Non saisi</div>
+        :
+        <div>B: Besoin, PA: Point d'appui, NE: Non exploré, NS: Non saisi</div>
+        }
       </Paper>
    
     </div>

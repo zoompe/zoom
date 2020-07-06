@@ -1,3 +1,4 @@
+
 export const namefield = (name) =>  {
     switch (name) {
     case "colonne40": return "Identifier ses caractéristiques personnelles : atouts et compétences, centres d'intérêt et aspirations personnels"
@@ -13,8 +14,36 @@ export const namefield = (name) =>  {
     case "colonne50": return "Identifier les moyens de se former et faire reconnaître ses compétences"
     case "colonne51": return "Construire son parcours de formation"
     case "colonne163": return "Explorer la piste d'un projet professionnel à l'étranger"
+    case "colonne64" : return "Cibler et s'informer sur les entreprises à contacter"
+    case "colonne65" : return "Organiser ses démarches de recherche d'emploi"
+    case "colonne66" : return "Approfondir les modalités de mise en œuvre de son projet de création ou reprise d'entreprise"
+    case "colonne80" : return "Connaître les acteurs de l'emploi et mobiliser leurs services"
+    case "colonne82" : return "Valoriser ses compétences et ses atouts dans une candidature, CV et ou lettre de motivation"
+    case "colonne83" : return "Valoriser ses compétences et ses atouts lors d'un entretien"
+    case "colonne84" : return "Activer et élargir son réseau à des fins professionnelles"
+    case "colonne85" : return "Identifier les démarches à mettre en œuvre pour créer son entreprise"
+    case "colonne86" : return "Valoriser son projet d'entreprise"
+    case "colonne95" : return "Candidater et adapter ses candidatures en fonction de l'emploi visé"
+    case "colonne96" : return "Suivre et analyser le résultat de ses candidatures"
+    case "colonne97" : return "Réussir son intégration en entreprise"
+    case "colonne98" : return "Réaliser les démarches de mise en œuvre de son projet d'entreprise"
+    case "colonne99" : return "Être accompagné(e) dans le développement de son activité"
+    case "colonne143" : return "Utiliser un équipement informatique"
+    case "colonne144" : return "Créer, mettre en forme et modifier un document informatique (CV, lettre de motivation)"
+    case "colonne145" : return "Utiliser internet et ses services"
+    case "colonne146" : return "Communiquer et échanger sur internet"
+    case "colonne147" : return "Connaître les conditions d'utilisation d'internet"
+    case "colonne160" : return "Approfondir les modalités de mise en œuvre de son projet de recherche d'emploi à l'étranger"
+    case "colonne109" : return "Le demandeur d'emploi exprime un besoin d'appui pour faire face à des difficultés financières"
+    case "colonne113" : return "Le demandeur d'emploi exprime un besoin d'appui pour faire face à des difficultés administratives ou juridiques"
+    case "colonne117" : return "Le demandeur d'emploi exprime un besoin d'appui pour prendre en compte son état de santé"
+    case "colonne122" : return "Le demandeur d'emploi exprime un besoin d'appui pour faire face à des difficultés de logement"
+    case "colonne127" : return "Le demandeur d'emploi exprime un besoin d'appui pour accéder à un moyen de transport"
+    case "colonne136" : return "Le demandeur d'emploi exprime un besoin d'appui pour développer ses capacités d'insertion et de communication"
+    case "colonne140" : return "Le demandeur d'emploi exprime un besoin d'appui pour surmonter des contraintes familiales"
     default : console.log('missing') ;
      }
     }
 
+   
 
