@@ -19,7 +19,7 @@ const Jalons = () => {
 
     //function source according to the user
     const getCountJalon = (fonction_id, p_user,ape_id) => {
-		console.log(fonction_id)
+		// console.log(fonction_id)
         switch (fonction_id) {
             //conseiller
             case 1:
@@ -50,7 +50,7 @@ const Jalons = () => {
 
 		useEffect(() => {
 			 getCountJalon(user.fonction_id, user.p_user,user.ape_id)
-			 console.log('sourcejalon=' + sourceJalon)
+			//  console.log('sourcejalon=' + sourceJalon)
 			 if(sourceJalon !== ''){
 			 axios({
 				method: 'get',
@@ -62,7 +62,8 @@ const Jalons = () => {
 			.then((res) =>  setDataJalon(res.data))
 		}
 	}
-		, [user.fonction_id, user.p_user,user.ape_id,sourceJalon])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		, [sourceJalon])
 
 	
 	const builtdatachart = () => {

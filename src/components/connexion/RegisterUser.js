@@ -70,7 +70,7 @@ const RegisterUser = () => {
  
       const handleSubmit = (event) => {
          event.preventDefault();
-         console.log(register)
+        //  console.log(register)
                   fetch("/auth/signup",
               {
                   method:  'POST',

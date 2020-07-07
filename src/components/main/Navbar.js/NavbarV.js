@@ -62,7 +62,7 @@ export default function NavbarV() {
 
     //count nav bar portefeuille
     const getCountPort = (fonction_id, p_user,ape_id) => {
-		console.log(fonction_id)
+		// console.log(fonction_id)
         switch (fonction_id) {
             //conseiller
             case 1:
@@ -93,7 +93,7 @@ export default function NavbarV() {
 
 		useEffect(() => {
 			 getCountPort(user.fonction_id, user.p_user,user.ape_id)
-			 console.log('source=' + source)
+			//  console.log('source=' + source)
 			 if(source !== ''){
 			 axios({
 				method: 'get',
@@ -141,7 +141,7 @@ export default function NavbarV() {
 
 		useEffect(() => {
 			 getCountEfo(user.fonction_id, user.p_user,user.ape_id)
-			 console.log('sourceefo=' + sourceEfo)
+			//  console.log('sourceefo=' + sourceEfo)
 			 if(sourceEfo !== ''){
 			 axios({
 				method: 'get',
@@ -155,9 +155,9 @@ export default function NavbarV() {
 	}
 		, [user.fonction_id, user.p_user,user.ape_id,sourceEfo])
 
-	console.log('Navbar user information: ', user)
-	console.log('Navbar count: ', countPort)
-	console.log('Navbar countefo: ', countEfo)
+	// console.log('Navbar user information: ', user)
+	// console.log('Navbar count: ', countPort)
+	// console.log('Navbar countefo: ', countEfo)
 
 	return (
 		<div>
