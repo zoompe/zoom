@@ -114,12 +114,58 @@ colonne140: "O",
 	//to do
 	const [selected, setSelected] = useState([]);
 
+	const sourceAll = [
+		"/count/diag?colonne40=",
+		"/count/diag?colonne41=",
+		"/count/diag?colonne42=",
+		"/count/diag?colonne43=",
+		"/count/diag?colonne44=",
+		"/count/diag?colonne45=",
+		"/count/diag?colonne46=",
+		"/count/diag?colonne47=",
+		"/count/diag?colonne48=",
+		"/count/diag?colonne49=",
+		"/count/diag?colonne50=",
+		"/count/diag?colonne51=",
+		"/count/diag?colonne163=",
+		"/count/diag?colonne64=",
+		"/count/diag?colonne65=",
+		"/count/diag?colonne66=",
+		"/count/diag?colonne80=",
+		"/count/diag?colonne82=",
+		"/count/diag?colonne83=",
+		"/count/diag?colonne84=",
+		"/count/diag?colonne85=",
+		"/count/diag?colonne86=",
+		"/count/diag?colonne95=",
+		"/count/diag?colonne96=",
+		"/count/diag?colonne97=",
+		"/count/diag?colonne98=",
+		"/count/diag?colonne99=",
+		"/count/diag?colonne143=",
+		"/count/diag?colonne144=",
+		"/count/diag?colonne145=",
+		"/count/diag?colonne146=",
+		"/count/diag?colonne147=",
+		"/count/diag?colonne160=",
+		"/count/diag?colonne109=",
+		"/count/diag?colonne113=",
+		"/count/diag?colonne117=",
+		"/count/diag?colonne122=",
+		"/count/diag?colonne127=",
+		"/count/diag?colonne136=",
+		"/count/diag?colonne140=",
+	]
+
 	useEffect(() => {
+
 		getFindUrl(user.fonction_id, user.p_user,user.ape_id)
 		let tempo = []
-		let source = ''
-		for (let i=0;i<Object.keys(dataDiagMod).length;i++){
-				source = '/count/diag?'+Object.keys(dataDiagMod)[i]+'='+Object.values(dataDiagMod)[i]+sourceUser
+		
+		for (let i=0;i<sourceAll.length;i++){
+				let source = sourceAll[i]+Object.values(dataDiagMod)[i]+sourceUser
+				// let source = sourceAll[i]+Object.values(dataDiagMod)[i]+sourceUser
+				// console.log(source)
 				axios({
 				   method: 'get',
 				   url: source,
@@ -133,7 +179,7 @@ colonne140: "O",
 		
 	}
 	setDataDiag(tempo)
-}
+	}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceUser])
 
@@ -264,8 +310,22 @@ colonne140: "O",
 		  } 
 	}
 
+
+	useEffect(() => {
+		console.log(dataDiagLength)
+	},[dataDiagLength])
+
+	  
+	
+	const test =() => {
+		console.log(dataDiagMod)
+		console.log(dataDiag)
+	}
+	
+
 	return (
 	<div>
+		<button onClick={test}>test</button>
 	<h1>Photo Diag DE en portefeuille</h1>
 	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
 	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>

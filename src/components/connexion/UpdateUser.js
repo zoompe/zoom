@@ -74,12 +74,12 @@ const UpdateUser = ({ show, handleClose }) => {
 	};
 
 	const source = `/auth/update/${user.idgasi}`
-	console.log(source)
+	// console.log(source)
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log(register);
-		console.log('Bearer ' + Cookies.get('authToken'));
+		// console.log(register);
+		// console.log('Bearer ' + Cookies.get('authToken'));
 		
 		axios({
 			method: 'put',

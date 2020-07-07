@@ -39,15 +39,15 @@ export default function Onglet({dataDiagMod,handleChangeMod,dataDiag,selected,ha
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const test = () => {
-      console.log(selected)
-  }
+  // const test = () => {
+  //     console.log(selected)
+  // }
 
   return (
     <>
     {(dataDiag.length > 0) && (
     <div className={classes.root}>
-        <button onClick={test}>test</button>
+        {/* <button onClick={test}>test</button> */}
       <Paper className={classes.paper}>
         <TableContainer>
           <Table
