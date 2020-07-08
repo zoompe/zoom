@@ -11,16 +11,6 @@ const UserContextProvider = (props) => {
 	
 	const [ user, setUser ] = useState({});
 	
-    // const history = useHistory();
-    
-    // useEffect(() => {
-    //     if (Cookies.get('authToken')) 
-    //      {history.push({pathname: '/home/main'})}
-    //     else {history.push({pathname: '/'})}
-    // }
-    // , [user,history])
-
-    
 	useEffect(() => {
 		if(Cookies.get('authToken') && !user.idgasi) {
             getUser()

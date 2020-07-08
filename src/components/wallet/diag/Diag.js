@@ -111,11 +111,12 @@ colonne136: "O",
 colonne140: "O",
 	})
 
-	//to do
+	
 	const [selected, setSelected] = useState([]);
 
 	useEffect(() => {
 		getFindUrl(user.fonction_id, user.p_user,user.ape_id)
+		if(sourceUser !== ''){
 		let tempo = []
 		let source = ''
 		for (let i=0;i<Object.keys(dataDiagMod).length;i++){
@@ -129,11 +130,11 @@ colonne140: "O",
 			   })
 			   .then((res) =>  tempo.push(res.data[0]))
 			   .then(() => setDataDiagLength(tempo.length))
-		// }
+		
 		
 	}
 	setDataDiag(tempo)
-}
+}}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceUser])
 
@@ -218,6 +219,7 @@ colonne140: "O",
 		   const updated = updateOne(copie, namecol, res.data[0].nb)
 		   setDataDiag(updated)
 		})
+		
 	}	
 	//select one
 	  const handleClick = (event, name) => {
@@ -238,10 +240,11 @@ colonne140: "O",
 		}
 		setSelected(newSelected);
 	  }; 
-	  //end 
+	  //end
+	  
+	  
 
-	  const getResultMulti = (event) =>{
-			event.preventDefault(event)
+	  const getResultMulti = () =>{
 		  let url ='/count/diag?'
 		  if (selected.length>0){
 			for (let i=0;i<selected.length;i++){
@@ -261,8 +264,23 @@ colonne140: "O",
 				  }
 			  })
 			  .then(res => {setmulti(res.data[0].nb)})
-		  } 
+		  } else {
+			setmulti(0)
+		  }
 	}
+
+	useEffect(() => {
+		getResultMulti()
+	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	, [selected])
+
+	useEffect(() => {
+		getResultMulti()
+	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	, [dataDiagMod])
+
 
 	return (
 	<div>
@@ -310,8 +328,7 @@ colonne140: "O",
 	}
 		{(choice>0) &&
 	<>
-	<button onClick={getResultMulti}>Resultat multi critères</button>
-	<div>{multi} DE</div>
+	<h4>Résultat multi critères: {multi} DE</h4>
 	</>
 	}
 	 
