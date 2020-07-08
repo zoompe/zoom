@@ -29,9 +29,9 @@ const Login = () => {
     }
     , [user,history])
 
-//     useEffect(() => {
-//    console.log(user)
-//     }, [user])
+    useEffect(() => {
+   console.log(user)
+    }, [user])
 
 
     const log= (event) => {
