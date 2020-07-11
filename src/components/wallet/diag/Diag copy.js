@@ -64,7 +64,7 @@ const Diag = () => {
 
 	const [ dataDiag, setDataDiag ] = useState([]);
 	const [ dataDiagLength, setDataDiagLength ] = useState(0);
-	const [ sourceUser, setSourceUser ] = useState('');
+	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ multi, setmulti ] = useState(0);
 	
 
@@ -111,61 +111,16 @@ colonne136: "O",
 colonne140: "O",
 	})
 
-	//to do
+	
 	const [selected, setSelected] = useState([]);
 
-	const sourceAll = [
-		"/count/diag?colonne40=",
-		"/count/diag?colonne41=",
-		"/count/diag?colonne42=",
-		"/count/diag?colonne43=",
-		"/count/diag?colonne44=",
-		"/count/diag?colonne45=",
-		"/count/diag?colonne46=",
-		"/count/diag?colonne47=",
-		"/count/diag?colonne48=",
-		"/count/diag?colonne49=",
-		"/count/diag?colonne50=",
-		"/count/diag?colonne51=",
-		"/count/diag?colonne163=",
-		"/count/diag?colonne64=",
-		"/count/diag?colonne65=",
-		"/count/diag?colonne66=",
-		"/count/diag?colonne80=",
-		"/count/diag?colonne82=",
-		"/count/diag?colonne83=",
-		"/count/diag?colonne84=",
-		"/count/diag?colonne85=",
-		"/count/diag?colonne86=",
-		"/count/diag?colonne95=",
-		"/count/diag?colonne96=",
-		"/count/diag?colonne97=",
-		"/count/diag?colonne98=",
-		"/count/diag?colonne99=",
-		"/count/diag?colonne143=",
-		"/count/diag?colonne144=",
-		"/count/diag?colonne145=",
-		"/count/diag?colonne146=",
-		"/count/diag?colonne147=",
-		"/count/diag?colonne160=",
-		"/count/diag?colonne109=",
-		"/count/diag?colonne113=",
-		"/count/diag?colonne117=",
-		"/count/diag?colonne122=",
-		"/count/diag?colonne127=",
-		"/count/diag?colonne136=",
-		"/count/diag?colonne140=",
-	]
-
 	useEffect(() => {
-
 		getFindUrl(user.fonction_id, user.p_user,user.ape_id)
+		if(sourceUser !== 'soon'){
 		let tempo = []
-		
-		for (let i=0;i<sourceAll.length;i++){
-				let source = sourceAll[i]+Object.values(dataDiagMod)[i]+sourceUser
-				// let source = sourceAll[i]+Object.values(dataDiagMod)[i]+sourceUser
-				// console.log(source)
+		let source = ''
+		for (let i=0;i<Object.keys(dataDiagMod).length;i++){
+				source = '/count/diag?'+Object.keys(dataDiagMod)[i]+'='+Object.values(dataDiagMod)[i]+sourceUser
 				axios({
 				   method: 'get',
 				   url: source,
@@ -175,13 +130,13 @@ colonne140: "O",
 			   })
 			   .then((res) =>  tempo.push(res.data[0]))
 			   .then(() => setDataDiagLength(tempo.length))
-		// }
+		
 		
 	}
 	setDataDiag(tempo)
-	}
+}}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	, [sourceUser])
+	, [sourceUser,user])
 
 
 	//function source according to the user
@@ -211,7 +166,7 @@ colonne140: "O",
 				setSourceUser('')
                 break;
                 
-            default : console.log('function_id missing') ;
+            default : setSourceUser('soon') ;
 		 }
 		}
 
@@ -264,6 +219,7 @@ colonne140: "O",
 		   const updated = updateOne(copie, namecol, res.data[0].nb)
 		   setDataDiag(updated)
 		})
+		
 	}	
 	//select one
 	  const handleClick = (event, name) => {
@@ -284,10 +240,11 @@ colonne140: "O",
 		}
 		setSelected(newSelected);
 	  }; 
-	  //end 
+	  //end
+	  
+	  
 
-	  const getResultMulti = (event) =>{
-			event.preventDefault(event)
+	  const getResultMulti = () =>{
 		  let url ='/count/diag?'
 		  if (selected.length>0){
 			for (let i=0;i<selected.length;i++){
@@ -307,25 +264,26 @@ colonne140: "O",
 				  }
 			  })
 			  .then(res => {setmulti(res.data[0].nb)})
-		  } 
+		  } else {
+			setmulti(0)
+		  }
 	}
-
 
 	useEffect(() => {
-		console.log(dataDiagLength)
-	},[dataDiagLength])
-
-	  
-	
-	const test =() => {
-		console.log(dataDiagMod)
-		console.log(dataDiag)
+		getResultMulti()
 	}
-	
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	, [selected])
+
+	useEffect(() => {
+		getResultMulti()
+	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	, [dataDiagMod])
+
 
 	return (
 	<div>
-		<button onClick={test}>test</button>
 	<h1>Photo Diag DE en portefeuille</h1>
 	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
 	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>
@@ -370,8 +328,7 @@ colonne140: "O",
 	}
 		{(choice>0) &&
 	<>
-	<button onClick={getResultMulti}>Resultat multi critères</button>
-	<div>{multi} DE</div>
+	<h4>Résultat multi critères: {multi} DE</h4>
 	</>
 	}
 	 

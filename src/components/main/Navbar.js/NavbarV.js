@@ -155,6 +155,11 @@ export default function NavbarV() {
 	}
 		, [user.fonction_id, user.p_user,user.ape_id,sourceEfo])
 
+		const UserConnected = () =>{
+			console.log("liste user")
+		}																									
+
+
 	// console.log('Navbar user information: ', user)
 	// console.log('Navbar count: ', countPort)
 	// console.log('Navbar countefo: ', countEfo)
@@ -182,12 +187,25 @@ export default function NavbarV() {
 						Maj : 01/05/2020
 					</Typography>
 					<List>
-						<IconButton aria-label="cart">
+					{isUserPermitted(LOAD_DATA, user.fonction) ? 
+																											
+						<IconButton aria-label="cart" onClick={UserConnected} >
 							<StyledBadge badgeContent={5} color="secondary" max={999}>
 								<SupervisedUserCircleIcon />
 							</StyledBadge>
 						</IconButton>
+					
+						:
+							
+						<IconButton aria-label="cart" >
+							<StyledBadge badgeContent={5} color="secondary" max={999}>
+								<SupervisedUserCircleIcon />
+							</StyledBadge>
+						</IconButton>
+					}
+
 						<IconButton>
+
 							<MailIcon />
 						</IconButton>
 						<button onClick={logout}>Logout</button>

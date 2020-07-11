@@ -18,7 +18,8 @@ export default function EfoTab({dataEfo}) {
   const classes = useStyles();
 
   return (
-     
+    <>
+    {(dataEfo!==undefined ) ? 
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -39,6 +40,9 @@ export default function EfoTab({dataEfo}) {
         </TableBody>
       </Table>
     </TableContainer>
-           
+    :
+    <div>no result</div>
+    }  
+    </>      
   )
 }
