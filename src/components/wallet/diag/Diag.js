@@ -66,7 +66,7 @@ const Diag = () => {
 	const [ dataDiagLength, setDataDiagLength ] = useState(0);
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ multi, setmulti ] = useState(0);
-	const [field, setField] = useState(['dc_individu_local','dc_civilite'])
+	// const [field, setField] = useState(['dc_individu_local','dc_civilite'])
 
 
 	const [ dataDiagMod, setDataDiagMod ] = useState({
@@ -292,7 +292,7 @@ colonne140: "O",
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagcsv/ide?' + checkUrl,
+			url: '/diagxlsx/ide?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -307,6 +307,46 @@ colonne140: "O",
 		 });
 		
 	}
+	const exportRef = () => {
+		axios({
+			method: 'get', 
+			responseType: 'blob', 
+			url: '/diagxlsx/ref?' + checkUrl,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken'),
+			}
+		})
+		.then((response) => {
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', 'diagRef.xlsx'); 
+			document.body.appendChild(link);
+			link.click();
+		 });
+		
+	}
+
+
+const exportApe = () => {
+	axios({
+		method: 'get', 
+		responseType: 'blob', 
+		url: '/diagxlsx/ape?' + checkUrl,
+		headers: {
+			Authorization: 'Bearer ' + Cookies.get('authToken'),
+		}
+	})
+	.then((response) => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'diagApe.xlsx'); 
+		document.body.appendChild(link);
+		link.click();
+	 });
+	
+}
 
 	return (
 	<div>
@@ -356,14 +396,18 @@ colonne140: "O",
 		{(choice>0) &&
 	<>
 	<h4>Résultat multi critères: {multi} DE</h4>
-
-	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
-	
 	</>
 	}
-	
+
+{(multi>0) && 
+	<>
+	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
+	<button onClick={exportRef}>Export Resultat multi-critères par référent</button>
+	<button onClick={exportApe}>Export Resultat multi-critères par APE</button>
+	</>
+}
 
 	</div>
-	)};
+)};
 
 export default Diag;
