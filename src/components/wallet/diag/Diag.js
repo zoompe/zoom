@@ -64,9 +64,10 @@ const Diag = () => {
 
 	const [ dataDiag, setDataDiag ] = useState([]);
 	const [ dataDiagLength, setDataDiagLength ] = useState(0);
-	const [ sourceUser, setSourceUser ] = useState('');
+	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ multi, setmulti ] = useState(0);
-	
+	// const [field, setField] = useState(['dc_individu_local','dc_civilite'])
+
 
 	const [ dataDiagMod, setDataDiagMod ] = useState({
 colonne40 : "B",
@@ -116,7 +117,7 @@ colonne140: "O",
 
 	useEffect(() => {
 		getFindUrl(user.fonction_id, user.p_user,user.ape_id)
-		if(sourceUser !== ''){
+		if(sourceUser !== 'soon'){
 		let tempo = []
 		let source = ''
 		for (let i=0;i<Object.keys(dataDiagMod).length;i++){
@@ -136,7 +137,7 @@ colonne140: "O",
 	setDataDiag(tempo)
 }}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	, [sourceUser])
+	, [sourceUser,user])
 
 
 	//function source according to the user
@@ -166,7 +167,7 @@ colonne140: "O",
 				setSourceUser('')
                 break;
                 
-            default : console.log('function_id missing') ;
+            default : setSourceUser('soon') ;
 		 }
 		}
 
@@ -242,20 +243,22 @@ colonne140: "O",
 	  }; 
 	  //end
 	  
-	  
+	  const [ checkUrl, setCheckUrl ] = useState('');
 
 	  const getResultMulti = () =>{
+
 		  let url ='/count/diag?'
+		  let checkedUrl=''
 		  if (selected.length>0){
 			for (let i=0;i<selected.length;i++){
 				if (i===0) {
-				  url += `${selected[i]}=${dataDiagMod[selected[i]]}`
+				  checkedUrl += `${selected[i]}=${dataDiagMod[selected[i]]}`
 				}
 				else {
-				  url += `&${selected[i]}=${dataDiagMod[selected[i]]}`
+					checkedUrl += `&${selected[i]}=${dataDiagMod[selected[i]]}`
 				}
 			}
-				  const sourcemulti = url + sourceUser
+				  const sourcemulti = url + checkedUrl + sourceUser
 				  axios({
 				  method: 'get',
 				  url: sourcemulti,
@@ -263,7 +266,7 @@ colonne140: "O",
 					  Authorization: 'Bearer ' + Cookies.get('authToken')
 				  }
 			  })
-			  .then(res => {setmulti(res.data[0].nb)})
+			  .then(res => {setmulti(res.data[0].nb)}, setCheckUrl(checkedUrl+ sourceUser))
 		  } else {
 			setmulti(0)
 		  }
@@ -281,9 +284,73 @@ colonne140: "O",
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [dataDiagMod])
 
+	const test= () => {
+		console.log(checkUrl)
+	}
+
+	const exportIDE = () => {
+		axios({
+			method: 'get', 
+			responseType: 'blob', 
+			url: '/diagxlsx/ide?' + checkUrl,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken'),
+			}
+		})
+		.then((response) => {
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', 'diagIDE.xlsx'); 
+			document.body.appendChild(link);
+			link.click();
+		 });
+		
+	}
+	const exportRef = () => {
+		axios({
+			method: 'get', 
+			responseType: 'blob', 
+			url: '/diagxlsx/ref?' + checkUrl,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken'),
+			}
+		})
+		.then((response) => {
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', 'diagRef.xlsx'); 
+			document.body.appendChild(link);
+			link.click();
+		 });
+		
+	}
+
+
+const exportApe = () => {
+	axios({
+		method: 'get', 
+		responseType: 'blob', 
+		url: '/diagxlsx/ape?' + checkUrl,
+		headers: {
+			Authorization: 'Bearer ' + Cookies.get('authToken'),
+		}
+	})
+	.then((response) => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'diagApe.xlsx'); 
+		document.body.appendChild(link);
+		link.click();
+	 });
+	
+}
 
 	return (
 	<div>
+	<button onClick={test}> test</button>
 	<h1>Photo Diag DE en portefeuille</h1>
 	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
 	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>
@@ -331,9 +398,16 @@ colonne140: "O",
 	<h4>Résultat multi critères: {multi} DE</h4>
 	</>
 	}
-	 
+
+{(multi>0) && 
+	<>
+	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
+	<button onClick={exportRef}>Export Resultat multi-critères par référent</button>
+	<button onClick={exportApe}>Export Resultat multi-critères par APE</button>
+	</>
+}
 
 	</div>
-	)};
+)};
 
 export default Diag;

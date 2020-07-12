@@ -11,7 +11,7 @@ const Jalons = () => {
 	const { user } = useContext(UserContext);
 
 	const [ dataJalon, setDataJalon ] = useState([]);
-	const [ sourceJalon, setSourceJalon ] = useState('');
+	const [ sourceJalon, setSourceJalon ] = useState('soon');
 
 	//chart pie
 	const [dataPie, setDataPie] = useState([])
@@ -44,14 +44,14 @@ const Jalons = () => {
                 setSourceJalon(`/jalons`)
                 break;
                 
-            default : console.log('function_id missing') ;
+            default : setSourceJalon('soon') ;
 		 }
 		}
 
 		useEffect(() => {
 			 getCountJalon(user.fonction_id, user.p_user,user.ape_id)
 			//  console.log('sourcejalon=' + sourceJalon)
-			 if(sourceJalon !== ''){
+			 if(sourceJalon !== 'soon'){
 			 axios({
 				method: 'get',
 				url: sourceJalon,
@@ -63,7 +63,7 @@ const Jalons = () => {
 		}
 	}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		, [sourceJalon])
+		, [sourceJalon,user])
 
 	
 	const builtdatachart = () => {
