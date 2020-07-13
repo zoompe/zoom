@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
@@ -36,6 +36,26 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 
 export default function NavbarV() {
   const classes = useStyles();
@@ -145,23 +165,33 @@ export default function NavbarV() {
     }
   };
 
-  useEffect(() => {
+  //count of online users
+  // useEffect(() => {
+  //   getOnlineUsersCount();
+  //   setInterval(() => {
+  //     getOnlineUsersCount();
+  //   }, 60000);
+  // }, []);
+
+  useInterval(() => {
     axios({
       method: 'get',
-      url: '/count/onlineusers',
+      url: '/users/onlineusers',
       headers: {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
     }).then((res) => setCountUsers(res.data[0].count));
+  }, 1000);
 
-    axios({
-      method: 'get',
-      url: '/count/showonlineusers',
-      headers: {
-        Authorization: 'Bearer ' + Cookies.get('authToken'),
-      },
-    }).then((res) => setOnlineUsers(res.data));
-  }, []);
+  // const getOnlineUsersCount = () => {
+  //   axios({
+  //     method: 'get',
+  //     url: '/users/onlineusers',
+  //     headers: {
+  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
+  //     },
+  //   }).then((res) => setCountUsers(res.data[0].count));
+  // };
 
   useEffect(() => {
     getCountEfo(user.fonction_id, user.p_user, user.ape_id);
@@ -180,7 +210,7 @@ export default function NavbarV() {
   const UserConnected = () => {
     axios({
       method: 'get',
-      url: '/count/showonlineusers',
+      url: '/users/showonlineusers',
       headers: {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
@@ -190,7 +220,8 @@ export default function NavbarV() {
   // console.log('Navbar user information: ', user)
   // console.log('Navbar count: ', countPort)
   // console.log('Navbar countefo: ', countEfo)
-  console.log(onlineUsers);
+  // console.log(onlineUsers);
+
   return (
     <div>
       <CssBaseline />
@@ -223,7 +254,7 @@ export default function NavbarV() {
                       color="primary"
                       {...bindTrigger(popupState)}
                     >
-                      <IconButton aria-label="cart" onClick={UserConnected}>
+                      <div aria-label="cart" onClick={UserConnected}>
                         <StyledBadge
                           badgeContent={countUsers}
                           color="secondary"
@@ -231,15 +262,17 @@ export default function NavbarV() {
                         >
                           <SupervisedUserCircleIcon />
                         </StyledBadge>
-                      </IconButton>
+                      </div>
                     </Button>
                     <Menu {...bindMenu(popupState)} className="menu">
-                      {onlineUsers.map((user) => (
-                        <MenuItem className="menu-item">
-                          <span id="id-user">{user.idgasi}</span> {user.name} -{' '}
-                          {user.fonction}
-                        </MenuItem>
-                      ))}
+                      {/* /count/showonlineusers */}
+                      {onlineUsers.length > 0 &&
+                        onlineUsers.map((user) => (
+                          <MenuItem key={user.idgasi} className="menu-item">
+                            <span id="id-user">{user.idgasi}</span> {user.name}{' '}
+                            - {user.fonction}
+                          </MenuItem>
+                        ))}
                       <MenuItem
                         onClick={popupState.close}
                         className="menu-close"
