@@ -33,6 +33,7 @@ const UserContextProvider = (props) => {
 	};
 	
 	const deleteUser = () => {
+		// alert('User should now be offline')
 		setUser({
 	            flash: '',
 		});

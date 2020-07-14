@@ -173,7 +173,7 @@ export default function NavbarV() {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
     }).then((res) => setCountUsers(res.data[0].count));
-  }, 100000000);
+  }, 1000000);
 
   useEffect(() => {
     getCountEfo(user.fonction_id, user.p_user, user.ape_id);
