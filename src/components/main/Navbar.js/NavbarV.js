@@ -165,14 +165,6 @@ export default function NavbarV() {
     }
   };
 
-  //count of online users
-  // useEffect(() => {
-  //   getOnlineUsersCount();
-  //   setInterval(() => {
-  //     getOnlineUsersCount();
-  //   }, 60000);
-  // }, []);
-
   useInterval(() => {
     axios({
       method: 'get',
@@ -181,17 +173,7 @@ export default function NavbarV() {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
     }).then((res) => setCountUsers(res.data[0].count));
-  }, 1000);
-
-  // const getOnlineUsersCount = () => {
-  //   axios({
-  //     method: 'get',
-  //     url: '/users/onlineusers',
-  //     headers: {
-  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
-  //     },
-  //   }).then((res) => setCountUsers(res.data[0].count));
-  // };
+  }, 100000000);
 
   useEffect(() => {
     getCountEfo(user.fonction_id, user.p_user, user.ape_id);
