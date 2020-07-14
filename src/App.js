@@ -1,24 +1,32 @@
-import React from 'react';
-import UserContextProvider from './contexts/UserContext';
+import React, { useContext } from 'react';
 import NavContextProvider from './contexts/NavContext';
 import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
 import RegisterUser from './components/connexion/RegisterUser';
 import Main from './components/main/Main';
-
 import Contacts from './components/activites/contacts/Contacts';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
 import Jalons from './components/wallet/jalons/Jalons';
 import Load from './components/load/Load';
 import UpdateUser from './components/connexion/UpdateUser';
-import PrivateRoute from './hoc/PrivateRoute'
-
+import PrivateRoute from './hoc/PrivateRoute';
+import { UserContext } from './contexts/UserContext';
 
 function App() {
+	const { user } = useContext(UserContext);
+	const { idgasi } = user;
+
+	window.addEventListener('beforeunload', async (event) => {
+		if (idgasi !== undefined) {
+		var URL = `/users/disconnection/${idgasi}`;
+		navigator.sendBeacon(URL);
+		}
+	  });
+
+
 	return (
 		<div className="App">
-			<UserContextProvider>
 				<NavContextProvider>
 					<Switch>
 						<Route exact path="/" component={Login} />
@@ -41,7 +49,6 @@ function App() {
 						<Route path="/register" component={RegisterUser} />
 					</Switch>
 				</NavContextProvider>
-			</UserContextProvider>
 		</div>
 	);
 }

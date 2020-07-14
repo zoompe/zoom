@@ -9,11 +9,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const Main = (props) => {
-  //useEffect with axios PUT
+
   const { user } = useContext(UserContext);
   const { idgasi } = user;
+  
+  // isOnline =1 or 0
   useEffect(() => {
-    console.log(Cookies.get('authToken'));
     if (idgasi !== undefined) {
       axios({
         method: 'put',
@@ -23,15 +24,16 @@ const Main = (props) => {
         },
       }).then((res) => res.data);
     }
-    // return () => {
-    //   axios({
-    //     method: 'put',
-    //     url: `/users/disconnection/${idgasi}`,
-    //     headers: {
-    //       Authorization: 'Bearer ' + Cookies.get('authToken'),
-    //     },
-    //   }).then((res) => res.data);
-    // };
+    return () => {
+      
+      axios({
+        method: 'post',
+        url: `/users/disconnection/${idgasi}`,
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => res.data);
+    };
   }, [idgasi]);
 
   //   const { user } = useContext(UserContext);
