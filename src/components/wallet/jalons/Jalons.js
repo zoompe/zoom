@@ -23,30 +23,32 @@ const Jalons = () => {
         switch (fonction_id) {
             //conseiller
             case 1:
-                setSourceJalon(`/jalons?dc_dernieragentreferent=${p_user}`)
+                setSourceJalon(`dc_dernieragentreferent=${p_user}`)
                 break;
             //ELP    
             case 2:
-                setSourceJalon(`/jalons?dc_structureprincipalede=${ape_id}`)
+                setSourceJalon(`dc_structureprincipalede=${ape_id}`)
                 break;
             //DTNE    
             case 3:
-                setSourceJalon( `/jalons?dt=DTNE`)
+                setSourceJalon( `dt=DTNE`)
                 break;
             //DTSO    
             case 4:
-                setSourceJalon( `/jalons?dt=DTSO`)
+                setSourceJalon( `dt=DTSO`)
                 break;
                 
             //DR ADMIN
             case 5:
             case 6:
-                setSourceJalon(`/jalons`)
+                setSourceJalon(``)
                 break;
                 
             default : setSourceJalon('soon') ;
 		 }
 		}
+
+		
 
 		useEffect(() => {
 			 getCountJalon(user.fonction_id, user.p_user,user.ape_id)
@@ -54,16 +56,76 @@ const Jalons = () => {
 			 if(sourceJalon !== 'soon'){
 			 axios({
 				method: 'get',
-				url: sourceJalon,
+				url: '/jalons?' + sourceJalon,
 				headers: {
 					Authorization: 'Bearer ' + Cookies.get('authToken')
 				}
 			})
 			.then((res) =>  setDataJalon(res.data))
+			
 		}
 	}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		, [sourceJalon,user])
+
+		const exportIDE = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/jalonxlsx/ide?' + sourceJalon,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'jalonIDE.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+			
+		}
+
+		const exportRef = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/jalonxlsx/ref?' + sourceJalon,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'jalonREF.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+			
+		}
+		const exportApe = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/jalonxlsx/ape?' + sourceJalon,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'jalonAPE.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+			
+		}
 
 	
 	const builtdatachart = () => {
@@ -93,7 +155,11 @@ const Jalons = () => {
 			<div className="box">
 			<JalonPie data={dataPie}/>
 			</div>
-		</div>	
+		</div>
+	
+	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
+	<button onClick={exportRef}>Export Resultat multi-critères par référent</button>
+	<button onClick={exportApe}>Export Resultat multi-critères par APE</button>
 	</div>	
 	)
 	;

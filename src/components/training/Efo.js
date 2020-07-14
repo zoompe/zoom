@@ -179,6 +179,7 @@ const Efo = () => {
 			setSourceFilter({ ...sourceFilter, [name]: value }); 
 		 };
 	   
+		 const [ checkUrl, setCheckUrl ] = useState('');
 		 
 		 const updateTable = () => {
 		   let sql=''
@@ -190,7 +191,7 @@ const Efo = () => {
 			   sql=sql+Object.keys(sourceFilter)[i]+'='+Object.values(sourceFilter)[i]+'&'		
 			   }
 		   }
-		   console.log(sql)
+		//    console.log(sql)
 		   axios({
 			   method: 'get',
 			   url: `/efo?${sourceUser}&${sql}`,
@@ -198,7 +199,7 @@ const Efo = () => {
 				   Authorization: 'Bearer ' + Cookies.get('authToken')
 			   }
 		   })
-		   .then((res) =>  setDataEfo(res.data[0]))
+		   .then(res => {setDataEfo(res.data[0])}, setCheckUrl(`${sourceUser}&${sql}`))
 		 }
 
 		 useEffect(() => {
@@ -207,13 +208,75 @@ const Efo = () => {
 			} 
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		, [sourceFilter])
+		, [sourceFilter,sourceUser])
+
+		//export excel
+		
+		const exportIDE = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/efoxlsx/ide?' + checkUrl,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'efoIDE.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+			
+		}
+		const exportRef = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/efoxlsx/ref?' + checkUrl,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'efoREF.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+		}
+	
+	
+	const exportApe = () => {
+			axios({
+				method: 'get', 
+				responseType: 'blob', 
+				url: '/efoxlsx/ape?' + checkUrl,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken'),
+				}
+			})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'efoAPE.xlsx'); 
+				document.body.appendChild(link);
+				link.click();
+			 });
+		
+	}
 	
 
 		const test= () => {
 		
-			console.log(listeSituationde)
-			console.log(sourceFilter)
+			// console.log(listeSituationde)
+			// console.log(sourceFilter)
+			console.log(checkUrl)
 		}
 	
 	return (
@@ -335,7 +398,10 @@ const Efo = () => {
 			<div>
 			<EfoTab dataEfo={dataEfo}/>	 	 
 			</div>
-			
+			<button onClick={exportIDE}>Export selon filtre IDE</button>
+			<button onClick={exportRef}>Export selon filtre référent</button>
+			<button onClick={exportApe}>Export selon filtre APE</button>
+					
 	</div>	
 	)
 	;
