@@ -284,9 +284,9 @@ colonne140: "O",
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [dataDiagMod])
 
-	const test= () => {
-		console.log(checkUrl)
-	}
+	// const test= () => {
+	// 	console.log(checkUrl)
+	// }
 
 	const exportIDE = () => {
 		axios({
@@ -350,16 +350,19 @@ const exportApe = () => {
 
 	return (
 	<div>
-	<button onClick={test}> test</button>
-	<h1>Photo Diag DE en portefeuille</h1>
+	{/* <button onClick={test}> test</button> */}
+	{(dataDiagLength===40) &&
+	<>
+	<h4>Photo diagnostic DE en portefeuille</h4>
 	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
 	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>
 	<button className={choice===3 ? "on" : "off"}onClick={choice3}>Freins périphériques à l'emploi</button>
-
+	</>
+}	
 	<EnhancedTableToolbar numSelected={selected.length} />
 	
 	{(dataDiagLength<40) &&
-	<div>Chargement en cours {dataDiagLength} sur 40 </div> 
+	<h3>Chargement en cours {dataDiagLength} sur 40 </h3> 
 }
 	
 	{(choice===1) && <Pmp 
