@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -28,7 +29,7 @@ const Efo = () => {
 	dc_parcours: 'all',
 	dc_categorie: 'all',
 	dc_statutaction_id: 'all',
-	dc_formacode_id:'all',
+	dc_lblformacode:'all',
 });
 
 	const { user } = useContext(UserContext);
@@ -40,7 +41,7 @@ const Efo = () => {
     const [ listeParcours, setListeParcours] = useState([]);
     const [ listeCategorie, setListecategorie] = useState([]);
     const [ listeStatutAction, setListeStatutAction] = useState([]);
-    const [ listeFormacode, setListeformacode] = useState([]);
+    // const [ listeFormacode, setListeformacode] = useState([]);
 
    // load dropdown from database listesituationde
     useEffect(() => {
@@ -107,19 +108,19 @@ const Efo = () => {
 			}, [sourceUser])
 	
    // load dropdown from database listeformacode
-   useEffect(() => {
-	if(sourceUser !== 'soon'){	
-		axios({
-			method: 'get',
-			url: `/efo/listeformacode?${sourceUser}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setListeformacode(res.data));
+//    useEffect(() => {
+// 	if(sourceUser !== 'soon'){	
+// 		axios({
+// 			method: 'get',
+// 			url: `/efo/listeformacode?${sourceUser}`,
+// 			headers: {
+// 				Authorization: 'Bearer ' + Cookies.get('authToken')
+// 			}
+// 		})
+// 		.then((res) =>  setListeformacode(res.data));
 	
-}
-}, [sourceUser])
+// }
+// }, [sourceUser])
 
 
     //function source according to the user
@@ -175,7 +176,10 @@ const Efo = () => {
 
 		const handleChange = (event) => {
 			const name= event.target.name
-			const value = event.target.value; 
+			let value = event.target.value;
+			if ((value === '') ||  (value === 'Tous')){
+			value='all'
+			}
 			setSourceFilter({ ...sourceFilter, [name]: value }); 
 		 };
 	   
@@ -272,18 +276,18 @@ const Efo = () => {
 	}
 	
 
-		const test= () => {
+		// const test= () => {
 		
-			// console.log(listeSituationde)
-			// console.log(sourceFilter)
-			console.log(checkUrl)
-		}
+		// 	// console.log(listeSituationde)
+		// 	// console.log(sourceFilter)
+		// 	console.log(sourceFilter)
+		// }
 	
 	return (
 		
 	<div>
-		<button onClick={test}></button>
-		<h1>Photo EFO DE en/hors portefeuille</h1>
+		{/* <button onClick={test}></button> */}
+		<h4>Photo EFO DE en/hors portefeuille</h4>
 			
 			<div>
 		
@@ -356,7 +360,7 @@ const Efo = () => {
 					))}
 					</Select>
 				</FormControl>
-				<FormControl variant="outlined" className={classes.formControl}>
+				{/* <FormControl variant="outlined" className={classes.formControl}>
 					<InputLabel id="demo-simple-select-outlined-label">Format Code</InputLabel>
 					<Select
 					name="dc_formacode_id"
@@ -372,24 +376,18 @@ const Efo = () => {
 					>{option.dc_lblformacode}</MenuItem>
 					))}
 					</Select>
+				</FormControl> */}
+				<FormControl variant="outlined" className={classes.formControl}>
+	
+				<TextField
+					name='dc_lblformacode'
+					label="Libellé Formacode"
+					defaultValue="Tous"
+					variant="outlined"
+					onChange={handleChange}
+					helperText="contient le mot..."
+					/>	
 				</FormControl>
-				{/* //test */}
-				<select
-              name='dc_formacode_id'
-              defaultValue='all'
-              onChange={handleChange}
-              >
-              <option value='all'>Tous</option>
-              {listeFormacode.map(option => ( 
-                  <option 
-                    key={option.dc_formacode_id}
-                    value={option.dc_formacode_id}
-                    >
-                      {option.dc_lblformacode}
-                  </option>
-                ))}         
-            </select>
-			
                               
 
 			</div>
@@ -398,9 +396,13 @@ const Efo = () => {
 			<div>
 			<EfoTab dataEfo={dataEfo}/>	 	 
 			</div>
+			{(dataEfo!==undefined) &&
+			<>
 			<button onClick={exportIDE}>Export selon filtre IDE</button>
 			<button onClick={exportRef}>Export selon filtre référent</button>
 			<button onClick={exportApe}>Export selon filtre APE</button>
+			</>
+}
 					
 	</div>	
 	)

@@ -147,7 +147,7 @@ const Jalons = () => {
 	return (
 		
 	<div>
-		<h1>Photo Jalons DE en portefeuille</h1>
+		<h4>Photo Jalons DE en portefeuille</h4>
 		<div className="container-jalon">
 			<div className="box">
 			<JalonTab dataJalon={dataJalon}/>	 	 
