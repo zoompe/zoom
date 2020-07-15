@@ -138,6 +138,7 @@ export default function NavbarV() {
   const getCountEfo = (fonction_id, p_user, ape_id) => {
     switch (fonction_id) {
       //conseiller
+
       case 1:
         setSourceEfo(`/count/efo?dc_dernieragentreferent=${p_user}`);
         break;
@@ -197,6 +198,29 @@ export default function NavbarV() {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
     }).then((res) => setOnlineUsers(res.data));
+  };
+
+  const handleHistoric = (link) => {
+    const jsDate = new Date();
+    const year = jsDate.getFullYear();
+    const month = jsDate.getMonth() + 1;
+    const day = jsDate.getDate();
+    const hours = jsDate.getHours();
+    const minutes = jsDate.getMinutes();
+    const seconds = jsDate.getSeconds();
+    const date = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    const idgasi = user.idgasi;
+    const button = link;
+    const historic = { idgasi: idgasi, date: date, button: button };
+
+    axios({
+      method: 'post',
+      data: historic,
+      url: `/historic`,
+      headers: {
+        Authorization: 'Bearer ' + Cookies.get('authToken'),
+      },
+    }).then((res) => res.data);
   };
 
   // console.log('Navbar user information: ', user)
@@ -278,7 +302,12 @@ export default function NavbarV() {
             )}
 
             <IconButton>
-              <MailIcon />
+              <a
+                className="mailto"
+                href="mailto:catblecon@gmail.com?subject=Hello%20Cathouuu!!!"
+              >
+                <MailIcon />
+              </a>
             </IconButton>
             <button onClick={logout}>Logout</button>
           </List>
@@ -343,12 +372,24 @@ export default function NavbarV() {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <ListItem>
-                  <Link className="" to="diag">
+                  <Link
+                    className=""
+                    to="diag"
+                    onClick={() => {
+                      handleHistoric('Diagnostic');
+                    }}
+                  >
                     Diagnostic
                   </Link>
                 </ListItem>
                 <ListItem>
-                  <Link className="" to="jalons">
+                  <Link
+                    className=""
+                    to="jalons"
+                    onClick={() => {
+                      handleHistoric('Jalons');
+                    }}
+                  >
                     Jalons
                   </Link>
                 </ListItem>
@@ -370,7 +411,13 @@ export default function NavbarV() {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <ListItem>
-                  <Link className="" to="efo">
+                  <Link
+                    className=""
+                    to="efo"
+                    onClick={() => {
+                      handleHistoric('EFO');
+                    }}
+                  >
                     EFO C/O en attente
                   </Link>
                 </ListItem>
@@ -389,7 +436,13 @@ export default function NavbarV() {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <ListItem>
-                  <Link className="" to="contacts">
+                  <Link
+                    className=""
+                    to="contacts"
+                    onClick={() => {
+                      handleHistoric('Contacts');
+                    }}
+                  >
                     Contacts
                   </Link>
                 </ListItem>
