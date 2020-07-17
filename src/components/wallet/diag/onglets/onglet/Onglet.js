@@ -110,7 +110,7 @@ export default function Onglet({dataDiagMod,handleChangeMod,dataDiag,selected,ha
                             ))}         
                         </select>}
                       </TableCell>
-                    <TableCell align="right">{row[Object.keys(dataDiag[0])[1]]}</TableCell>
+                    <TableCell align="right">{row[Object.keys(dataDiag[0])[1]].toLocaleString()}</TableCell>
                     </TableRow>
                   );
                 })}

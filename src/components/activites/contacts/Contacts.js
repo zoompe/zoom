@@ -8,6 +8,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ref from '../../../image/ref.png';
+import ape from '../../../image/ape.png';
+import './contact.css'
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -23,23 +26,20 @@ const Contacts = () => {
 
   const classes = useStyles();
 
+ 
   const [ sourceFilter, setSourceFilter ] = useState({
 	dc_structureprincipalesuivi: 'all',
-	dc_agentreferent: 'all',
 	dc_modalitesuiviaccomp_id: 'all',
 	annee: 'all',
 });
-
 	const { user } = useContext(UserContext);
 
 	const [ dataActi, setDataActi ] = useState([]);
 
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ listeStructure, setListeStructure] = useState([]);
-    const [ listeRef, setListeRef] = useState([]);
     const [ listeModAcc, setListeModAcc] = useState([]);
-    const [ listeYear, setListeYear] = useState([]);
-    
+	const [ listeYear, setListeYear] = useState([]);
 
    // load dropdown from database listestructure
     useEffect(() => {
@@ -57,21 +57,6 @@ const Contacts = () => {
     }
 	}, [sourceUser])
 
-	// load dropdown from database listeRef
-    useEffect(() => {
-		if(sourceUser !== 'soon'){
-
-			axios({
-				method: 'get',
-				url: `/activites/listeref?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setListeRef(res.data));
-		
-    }
-	}, [sourceUser])
 
 		// load dropdown from database listeModAcc
 		useEffect(() => {
@@ -116,7 +101,8 @@ const Contacts = () => {
                 break;
             //ELP    
             case 2:
-                setSourceUser(`dc_structureprincipalesuivi=${ape_id}`)
+				setSourceUser(`dc_structureprincipalesuivi=${ape_id}`)
+				// setSourceFilter({ ...sourceFilter, 'dc_structureprincipalesuivi': ape_id }); 
                 break;
             //DTNE    
             case 3:
@@ -142,7 +128,6 @@ const Contacts = () => {
 			getSourceUser(user.fonction_id, user.p_user,user.ape_id)
 
 			if(sourceUser !== 'soon'){
-
 					axios({
 						method: 'get',
 						url: `/activites?${sourceUser}`,
@@ -167,14 +152,22 @@ const Contacts = () => {
 		 
 		 const updateTable = () => {
 		   let sql=''
-		   for (let i=0;i<Object.keys(sourceFilter).length;i++){
-			   if (i===Object.keys(sourceFilter).length-1){
-			   sql=sql+Object.keys(sourceFilter)[i]+'='+Object.values(sourceFilter)[i]		
+		   const newSourceFilter = Object.assign({}, sourceFilter)
+		   if (user.fonction_id === 2) {
+			delete newSourceFilter.dc_structureprincipalesuivi;
+		   }
+		  
+		   for (let i=0;i<Object.keys(newSourceFilter).length;i++){
+			   if (i===Object.keys(newSourceFilter).length-1){
+			   sql=sql+Object.keys(newSourceFilter)[i]+'='+Object.values(newSourceFilter)[i]		
 			   }
 			   else{
-			   sql=sql+Object.keys(sourceFilter)[i]+'='+Object.values(sourceFilter)[i]+'&'		
+			   sql=sql+Object.keys(newSourceFilter)[i]+'='+Object.values(newSourceFilter)[i]+'&'		
 			   }
 		   }
+		//    console.log(sourceFilter)
+		//    console.log(newSourceFilter)
+
 		//    console.log(sql)
 		   axios({
 			   method: 'get',
@@ -247,7 +240,13 @@ const Contacts = () => {
 	<div>
 		{/* <button onClick={test}></button> */}
 		<h4>Contacts DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
-		<h5>(sans situation,rattaché,en portefeuille)</h5>	
+		<h5>(sans situation,rattaché,en portefeuille)</h5>
+		{(dataActi!==undefined && dataActi.length>0) &&
+			<div className='excel'>
+			<img onClick={exportRef} src={ref} alt='REF' title='Liste selon filtre par REF'/>
+			<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
+			</div>
+}
 			<div>
 
 				<FormControl variant="outlined" className={classes.formControl}>
@@ -266,23 +265,6 @@ const Contacts = () => {
 						>{option.dc_structureprincipalesuivi}</MenuItem>
 						))}
 						</Select>
-				</FormControl>
-				<FormControl variant="outlined" className={classes.formControl}>
-					<InputLabel id="demo-simple-select-outlined-label">Référent</InputLabel>
-					<Select
-					name="dc_agentreferent"
-					value={sourceFilter.dc_agentreferent}
-					onChange={handleChange}
-					label="Référent"
-					>
-					<MenuItem value="all"><em>Tous</em></MenuItem>
-					{listeRef.map(option => (
-					<MenuItem 
-					key={option.dc_agentreferent}
-					value={option.dc_agentreferent}
-					>{option.dc_agentreferent}</MenuItem>
-					))}
-					</Select>
 				</FormControl>
 				<FormControl variant="outlined" className={classes.formControl}>
 					<InputLabel id="demo-simple-select-outlined-label">Modalité d'acc</InputLabel>
@@ -326,8 +308,7 @@ const Contacts = () => {
 			<div>
 			<ContactTab dataActi={dataActi}/>	 	 
 			</div>
-			<button onClick={exportRef}>Export selon filtre référent</button>
-			<button onClick={exportApe}>Export selon filtre APE</button> 
+			
 					
 	</div>	
 	)

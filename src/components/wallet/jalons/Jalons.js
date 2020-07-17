@@ -5,6 +5,9 @@ import JalonTab from './JalonTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './jalon.css'
+import ide from '../../../image/ide.png';
+import ref from '../../../image/ref.png';
+import ape from '../../../image/ape.png';
 
 const Jalons = () => {
 
@@ -148,6 +151,11 @@ const Jalons = () => {
 		
 	<div>
 		<h4>Photo Jalons DE en portefeuille</h4>
+		<div className='excel'>
+		<img onClick={exportIDE} src={ide} alt='IDE' title='Liste par IDE'/>
+		<img onClick={exportRef} src={ref} alt='REF' title='Liste par REF'/>
+		<img onClick={exportApe} src={ape} alt='APE' title='Liste par APE'/>
+		</div>
 		<div className="container-jalon">
 			<div className="box">
 			<JalonTab dataJalon={dataJalon}/>	 	 
@@ -156,10 +164,8 @@ const Jalons = () => {
 			<JalonPie data={dataPie}/>
 			</div>
 		</div>
+
 	
-	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
-	<button onClick={exportRef}>Export Resultat multi-critères par référent</button>
-	<button onClick={exportApe}>Export Resultat multi-critères par APE</button>
 	</div>	
 	)
 	;

@@ -44,17 +44,17 @@ export default function JalonTab({dataActi}) {
         <TableBody>
           {dataActi.map((row) => (
             <TableRow key={row.annee+row.mois}>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[0]]}</TableCell> 
-              <TableCell align="right">{row[Object.keys(dataActi[0])[1]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[2]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[3]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[4]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[5]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[6]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[7]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[8]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[9]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[10]]}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
+              <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[2]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[3]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[4]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[5]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[6]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[7]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[10]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[11]]}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[12]]}</TableCell>
             </TableRow>

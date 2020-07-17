@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Select from '../shared/Select';
+// import Select from '../shared/Select';
 import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
@@ -161,7 +161,6 @@ const UpdateUser = ({ show, handleClose }) => {
                         />
                         <div>{message}</div>
                         <br></br>
-
                         <SelectStructure
                           name="ape_id"
                           options={listAPE} //database
@@ -210,6 +209,7 @@ const UpdateUser = ({ show, handleClose }) => {
       </Modal.Footer>
     </Modal>
   );
+
 };
 
 export default UpdateUser;

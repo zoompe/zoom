@@ -75,6 +75,8 @@ export default function NavbarV() {
 
   const history = useHistory();
 
+  // const datemaj = document.getElementById('/home/catherine/T_Port.csv').files[0].lastModifiedDate;
+
   const logout = () => {
     Cookies.remove('authToken', user.token);
     history.push({ pathname: '/' });
@@ -174,7 +176,9 @@ export default function NavbarV() {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
     }).then((res) => setCountUsers(res.data[0].count));
+
   }, 1000);
+
 
   useEffect(() => {
     getCountEfo(user.fonction_id, user.p_user, user.ape_id);
@@ -366,8 +370,8 @@ export default function NavbarV() {
                 <Typography className={classesP.heading}>
                   Portefeuille
                 </Typography>
-                <Typography className={classesP.secondaryHeading}>
-                  {countPort}
+                <Typography className={classesP.Heading}>
+                  {countPort.toLocaleString()}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -405,8 +409,8 @@ export default function NavbarV() {
                 id="panel2bh-header"
               >
                 <Typography className={classesP.heading}>EFO</Typography>
-                <Typography className={classesP.secondaryHeading}>
-                  {countEfo}
+                <Typography className={classesP.Heading}>
+                  {countEfo.toLocaleString()}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>

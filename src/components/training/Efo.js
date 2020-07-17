@@ -9,6 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import ide from '../../image/ide.png'
+import ref from '../../image/ref.png';
+import ape from '../../image/ape.png';
+import './efo.css'
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -155,7 +159,7 @@ const Efo = () => {
 		}
 
 		useEffect(() => {
-			console.log('source' + sourceUser )
+			// console.log('source' + sourceUser )
 			getSourceUser(user.fonction_id, user.p_user,user.ape_id)
 
 			if(sourceUser !== 'soon'){
@@ -288,6 +292,14 @@ const Efo = () => {
 	<div>
 		{/* <button onClick={test}></button> */}
 		<h4>Photo EFO DE en/hors portefeuille</h4>
+		{(dataEfo!==undefined) &&
+			<div className='excel'>
+			<img onClick={exportIDE} src={ide} alt='IDE' title='Liste selon filtre par IDE'/>
+			<img onClick={exportRef} src={ref} alt='REF' title='Liste selon filtre par REF'/>
+			<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
+			</div>
+			
+}
 			
 			<div>
 		
@@ -305,7 +317,7 @@ const Efo = () => {
 						<MenuItem 
 						key={option.dc_situationde}
 						value={option.dc_situationde}
-						>{option.dc_situationde}</MenuItem>
+						>{option.libelle}</MenuItem>
 						))}
 						</Select>
 				</FormControl>
@@ -382,7 +394,7 @@ const Efo = () => {
 				<TextField
 					name='dc_lblformacode'
 					label="Libellé Formacode"
-					defaultValue="Tous"
+					defaultValue=""
 					variant="outlined"
 					onChange={handleChange}
 					helperText="contient le mot..."
@@ -396,13 +408,7 @@ const Efo = () => {
 			<div>
 			<EfoTab dataEfo={dataEfo}/>	 	 
 			</div>
-			{(dataEfo!==undefined) &&
-			<>
-			<button onClick={exportIDE}>Export selon filtre IDE</button>
-			<button onClick={exportRef}>Export selon filtre référent</button>
-			<button onClick={exportApe}>Export selon filtre APE</button>
-			</>
-}
+			
 					
 	</div>	
 	)
