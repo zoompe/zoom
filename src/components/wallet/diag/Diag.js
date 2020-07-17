@@ -11,8 +11,9 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import './diag.css'
-
-
+import ide from '../../../image/ide.png';
+import ref from '../../../image/ref.png';
+import ape from '../../../image/ape.png';
 
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
@@ -222,6 +223,7 @@ colonne140: "O",
 		})
 		
 	}	
+
 	//select one
 	  const handleClick = (event, name) => {
 		const selectedIndex = selected.indexOf(name);
@@ -351,9 +353,17 @@ const exportApe = () => {
 	return (
 	<div>
 	{/* <button onClick={test}> test</button> */}
+	
 	{(dataDiagLength===40) &&
 	<>
 	<h4>Photo diagnostic DE en portefeuille</h4>
+	{(multi>0) && 
+	<div className='excel'>
+ 	<img onClick={exportIDE} src={ide} alt='IDE' title='Resultat multi-critères par IDE'/>
+ 	<img onClick={exportRef} src={ref} alt='REF' title='Resultat multi-critères par REF'/>
+ 	<img onClick={exportApe} src={ape} alt='APE' title='Resultat multi-critères par APE'/>
+	</div>
+}
 	<button className={choice===1 ? "on" : "off"} onClick={choice1}>Projet et mobilité professionnelle</button>
 	<button className={choice===2 ? "on" : "off"} onClick={choice2}>Recherche d'emploi</button>
 	<button className={choice===3 ? "on" : "off"}onClick={choice3}>Freins périphériques à l'emploi</button>
@@ -398,17 +408,9 @@ const exportApe = () => {
 	}
 		{(choice>0) &&
 	<>
-	<h4>Résultat multi critères: {multi} DE</h4>
+	<h4>Résultat multi critères: {multi.toLocaleString()} DE</h4>
 	</>
 	}
-
-{(multi>0) && 
-	<>
-	<button onClick={exportIDE}>Export Resultat multi-critères IDE</button>
-	<button onClick={exportRef}>Export Resultat multi-critères par référent</button>
-	<button onClick={exportApe}>Export Resultat multi-critères par APE</button>
-	</>
-}
 
 	</div>
 )};

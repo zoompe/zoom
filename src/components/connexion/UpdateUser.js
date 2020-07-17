@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Select from '../shared/Select';
+// import Select from '../shared/Select';
 import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
@@ -11,8 +11,8 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import Cookies from 'js-cookie';
-// import TextField from '@material-ui/core/TextField';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import './registerUser.css';
 
 const UpdateUser = ({ show, handleClose }) => {
@@ -124,21 +124,22 @@ const UpdateUser = ({ show, handleClose }) => {
 													handleChange={handleChange}
 													placeholder={'Select team'}
 												/>
-												<Select
+												{/* <Select
 													name="p_user"
 													options={listPuser} //database
 													value={register.p_user}
 													handleChange={handleChange}
-												/>
-												{/* <Autocomplete
-                                 onChange={(event, newValue) => {setRegister({...register, p_user : newValue})}}
-                                id="p_user"
-                                options={listPuser}
-                                style={{ width: 500 }}
-                                renderInput={(params) => <TextField {...params} label="P user" variant="outlined" />}
-                                required="required" //?? don't work
-                              />
-                              <br></br> */}
+												/> */}
+												<Autocomplete
+												onChange={(event, newValue) => {setRegister({...register, p_user : newValue})}}
+												id="p_user"
+												name="p_user"
+												options={listPuser}
+												style={{ width: 500 }}
+												renderInput={(params) => <TextField {...params} label="P user" variant="outlined" />}
+												required="required field" //?? don't work
+											/>
+                              <br></br>
 
 												<SelectStructure
 													name="ape_id"

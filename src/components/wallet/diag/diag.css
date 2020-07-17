@@ -5,3 +5,9 @@
   .off {
     background: #9e9d9d;
   }
+
+.excel img{
+  text-align: left;
+  cursor:pointer;
+}  
+

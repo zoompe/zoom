@@ -37,23 +37,23 @@ export default function JalonTab({dataJalon}) {
         <TableBody>
           {dataJalon.map((row) => (
             <TableRow key={row.dc_lblmotifjalonpersonnalise}>
-              <TableCell align="left">{row[Object.keys(dataJalon[0])[0]]}</TableCell> 
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[1]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[2]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[3]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[4]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[5]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataJalon[0])[6]]}</TableCell>
+              <TableCell align="left">{row[Object.keys(dataJalon[0])[0]].toLocaleString()}</TableCell> 
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[1]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[2]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[3]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[4]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[5]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataJalon[0])[6]].toLocaleString()}</TableCell>
             </TableRow>
           ))}
             <TableRow>
               <TableCell align="left">Total</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[1]], 0)}</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[2]], 0)}</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[3]], 0)}</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[4]], 0)}</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[5]], 0)}</TableCell>
-              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[6]], 0)}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[1]], 0).toLocaleString()}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[2]], 0).toLocaleString()}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[3]], 0).toLocaleString()}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[4]], 0).toLocaleString()}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[5]], 0).toLocaleString()}</TableCell>
+              <TableCell align="right">{dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[6]], 0).toLocaleString()}</TableCell>
             </TableRow>
           
         </TableBody>

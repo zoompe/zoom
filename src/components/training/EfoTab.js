@@ -32,10 +32,10 @@ export default function EfoTab({dataEfo}) {
         </TableHead>
         <TableBody>
             <TableRow> 
-              <TableCell align="right">{dataEfo.nbEFO}</TableCell>
-              <TableCell align="right">{dataEfo.nbDEEFO}</TableCell>
-              <TableCell align="right">{dataEfo.nbDE}</TableCell>
-              <TableCell align="right">{dataEfo.tx}</TableCell>
+              <TableCell align="right">{Number(dataEfo.nbEFO).toLocaleString()}</TableCell>
+              <TableCell align="right">{Number(dataEfo.nbDEEFO).toLocaleString()}</TableCell>
+              <TableCell align="right">{Number(dataEfo.nbDE).toLocaleString()}</TableCell>
+              <TableCell align="right">{(dataEfo.tx)}</TableCell>
             </TableRow>        
         </TableBody>
       </Table>
