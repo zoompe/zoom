@@ -11,183 +11,205 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import Cookies from 'js-cookie';
-// import TextField from '@material-ui/core/TextField';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import './registerUser.css';
 
 const UpdateUser = ({ show, handleClose }) => {
-	const { user , deleteUser } = useContext(UserContext);
-	const history = useHistory();
+  const { user, deleteUser } = useContext(UserContext);
+  const history = useHistory();
 
-	const [ register, setRegister ] = useState({
-		fonction_id: '',
-		team_id: null,
-		p_user: '',
-		ape_id: null
-	});
+  const [register, setRegister] = useState({
+    fonction_id: '',
+    team_id: null,
+    p_user: '',
+    ape_id: null,
+  });
 
-	const [ listFunction, SetListFunction ] = useState([]);
-	const [ listTeam, SetListTeam ] = useState([]);
-	const [ listAPE, SetListAPE ] = useState([]);
-	const [ listPuser, SetListPuser ] = useState([]);
+  const [message, setMessage] = useState('');
 
-	// load datas from database - Mimic ComponentDidMount
-	useEffect(() => {
-		axios.get('/fonctions').then((res) => {
-			SetListFunction(res.data);
-		});
-	}, []);
-	useEffect(() => {
-		axios.get('/teams').then((res) => {
-			SetListTeam(res.data);
-		});
-	}, []);
-	useEffect(() => {
-		axios.get('/apes').then((res) => {
-			SetListAPE(res.data);
-		});
-	}, []);
-	useEffect(() => {
-		axios.get('/pusers').then((res) => {
-			SetListPuser(res.data.map((el) => el.dc_dernieragentreferent));
-		});
-	}, []);
+  const [listFunction, SetListFunction] = useState([]);
+  const [listTeam, SetListTeam] = useState([]);
+  const [listAPE, SetListAPE] = useState([]);
+  const [listPuser, SetListPuser] = useState([]);
+  const [puser, SetPuser] = useState('');
 
+  // load datas from database - Mimic ComponentDidMount
+  useEffect(() => {
+    axios.get('/fonctions').then((res) => {
+      SetListFunction(res.data);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get('/teams').then((res) => {
+      SetListTeam(res.data);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get('/apes').then((res) => {
+      SetListAPE(res.data);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get('/pusers').then((res) => {
+      SetListPuser(res.data.map((el) => el.dc_dernieragentreferent));
+    });
+  }, []);
 
-	useEffect(() => {
-		if (register.flash === 'User updated!'){
-		Cookies.remove('authToken', user.token);
-		handleClose()
-	    history.push({ pathname: '/' })
-		deleteUser()
-	}
-	}, [register.flash, history, user.token, deleteUser,handleClose])
+  useEffect(() => {
+    if (register.flash === 'User updated!') {
+      Cookies.remove('authToken', user.token);
+      handleClose();
+      history.push({ pathname: '/' });
+      deleteUser();
+    }
+  }, [register.flash, history, user.token, deleteUser, handleClose]);
 
-	const handleChange = (event) => {
-		const name = event.target.name;
-		const value = event.target.value;
-		if (name === 'fonction_id') {
-			setRegister({ ...register, [name]: value, team_id: null, p_user: '', ape_id: null });
-		} else {
-			setRegister({ ...register, [name]: value });
-		}
-	};
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    if (name === 'fonction_id') {
+      setRegister({
+        ...register,
+        [name]: value,
+        team_id: null,
+        p_user: '',
+        ape_id: null,
+      });
+    } else {
+      setRegister({ ...register, [name]: value });
+    }
+    console.log(register);
+    console.log(register.p_user);
+  };
 
-	const source = `/auth/update/${user.idgasi}`
-	// console.log(source)
+  const source = `/auth/update/${user.idgasi}`;
+  // console.log(source)
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		// console.log(register);
-		// console.log('Bearer ' + Cookies.get('authToken'));
-		
-		axios({
-			method: 'put',
-			url: source,
-			data: register,
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			},
-			
-		})
-		.then((res) =>  setRegister(res.data));
-	}
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      (register.fonction_id == 1 && register.p_user) ||
+      register.fonction_id != 1
+    ) {
+      setMessage('');
+      axios({
+        method: 'put',
+        url: source,
+        data: register,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setRegister(res.data));
+    } else {
+      setMessage('le champ p_user est requis');
+    }
+  };
+  return (
+    <Modal
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      show={show}
+      onHide={handleClose}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Maj Profile {user.name} </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="login">
+          <div className="container">
+            <div className="d-flex justify-content-center h-100">
+              <div className="card">
+                <div className="card-header">
+                  <h3>Nouveau Profile</h3>
+                </div>
+                <div className="card-body">
+                  <form onSubmit={handleSubmit}>
+                    <SelectFonction
+                      name="fonction_id"
+                      options={listFunction} //database
+                      handleChange={handleChange}
+                      placeholder={'Select fonction'}
+                    />
+                    {isUserPermitted(CONSEILLER, register.fonction_id) && (
+                      <div>
+                        <SelectTeam
+                          name="team_id"
+                          options={listTeam} //database
+                          handleChange={handleChange}
+                          placeholder={'Select team'}
+                        />
+                        <Autocomplete
+                          onChange={(event, newValue) => {
+                            setRegister({ ...register, p_user: newValue });
+                          }}
+                          name="p_user"
+                          id="p_user"
+                          options={listPuser}
+                          style={{ width: 500 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="P user"
+                              variant="outlined"
+                              value={puser}
+                            />
+                          )}
+                          //   required="required" //?? don't work
+                        />
+                        <div>{message}</div>
+                        <br></br>
 
- 
-	return (
-		<Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
-			<Modal.Header closeButton>
-				<Modal.Title>Maj Profile {user.name} </Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<div className="login">
-					<div className="container">
-						<div className="d-flex justify-content-center h-100">
-							<div className="card">
-								<div className="card-header">
-									<h3>Nouveau Profile</h3>
-								</div>
-								<div className="card-body">
-									<form onSubmit={handleSubmit}>
-										<SelectFonction
-											name="fonction_id"
-											options={listFunction} //database
-											handleChange={handleChange}
-											placeholder={'Select fonction'}
-										/>
-										{isUserPermitted(CONSEILLER, register.fonction_id) && (
-											<div>
-												<SelectTeam
-													name="team_id"
-													options={listTeam} //database
-													handleChange={handleChange}
-													placeholder={'Select team'}
-												/>
-												<Select
-													name="p_user"
-													options={listPuser} //database
-													value={register.p_user}
-													handleChange={handleChange}
-												/>
-												{/* <Autocomplete
-                                 onChange={(event, newValue) => {setRegister({...register, p_user : newValue})}}
-                                id="p_user"
-                                options={listPuser}
-                                style={{ width: 500 }}
-                                renderInput={(params) => <TextField {...params} label="P user" variant="outlined" />}
-                                required="required" //?? don't work
-                              />
-                              <br></br> */}
-
-												<SelectStructure
-													name="ape_id"
-													options={listAPE} //database
-													handleChange={handleChange}
-													placeholder={'Select APE'}
-												/>
-											</div>
-										)}
-										{isUserPermitted(ELP, register.fonction_id) && (
-											<div>
-												<SelectTeam
-													name="team_id"
-													options={listTeam} //database
-													handleChange={handleChange}
-													placeholder={'Select team'}
-												/>
-												<SelectStructure
-													name="ape_id"
-													options={listAPE} //database
-													handleChange={handleChange}
-													placeholder={'Select APE'}
-												/>
-											</div>
-										)}
-										<div className="card-footer">
-											<div className="d-flex justify-content-center links">
-												<input
-													type="submit"
-													value="update"
-													className="btn float-right login_btn"
-												/>
-											</div>
-										</div>
-									</form>
-								</div>
-								<div />
-							</div>
-						</div>
-					</div>
-				</div>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button variant="secondary" onClick={handleClose}>
-					Fermer sans enregistrer
-				</Button>
-			</Modal.Footer>
-		</Modal>
-	);
+                        <SelectStructure
+                          name="ape_id"
+                          options={listAPE} //database
+                          handleChange={handleChange}
+                          placeholder={'Select APE'}
+                        />
+                      </div>
+                    )}
+                    {isUserPermitted(ELP, register.fonction_id) && (
+                      <div>
+                        <SelectTeam
+                          name="team_id"
+                          options={listTeam} //database
+                          handleChange={handleChange}
+                          placeholder={'Select team'}
+                        />
+                        <SelectStructure
+                          name="ape_id"
+                          options={listAPE} //database
+                          handleChange={handleChange}
+                          placeholder={'Select APE'}
+                        />
+                      </div>
+                    )}
+                    <div className="card-footer">
+                      <div className="d-flex justify-content-center links">
+                        <input
+                          type="submit"
+                          value="update"
+                          className="btn float-right login_btn"
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Fermer sans enregistrer
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 };
 
 export default UpdateUser;
