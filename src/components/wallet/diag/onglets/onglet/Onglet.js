@@ -58,7 +58,8 @@ export default function Onglet({dataDiagMod,handleChangeMod,dataDiag,selected,ha
           >
           
             <TableBody>
-              {dataDiag.slice(0,13)
+            {/* dataDiag.slice(0,13) */}
+              {dataDiag
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;

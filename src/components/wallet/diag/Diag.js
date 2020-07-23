@@ -14,6 +14,9 @@ import './diag.css'
 import ide from '../../../image/ide.png';
 import ref from '../../../image/ref.png';
 import ape from '../../../image/ape.png';
+import { namefield } from '../../../utils/diagNameColonne';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
@@ -223,6 +226,14 @@ colonne140: "O",
 		})
 		
 	}	
+	
+
+	//deselect all
+	const deselect = () => {
+		setSelected([]);
+		setFilter([]);
+	  };
+
 
 	//select one
 	  const handleClick = (event, name) => {
@@ -246,11 +257,13 @@ colonne140: "O",
 	  //end
 	  
 	  const [ checkUrl, setCheckUrl ] = useState('');
+	  const [ filter, setFilter ] = useState([]);
 
 	  const getResultMulti = () =>{
 
 		  let url ='/count/diag?'
 		  let checkedUrl=''
+		  let filterName= []
 		  if (selected.length>0){
 			for (let i=0;i<selected.length;i++){
 				if (i===0) {
@@ -259,6 +272,8 @@ colonne140: "O",
 				else {
 					checkedUrl += `&${selected[i]}=${dataDiagMod[selected[i]]}`
 				}
+				filterName.push(`${namefield(selected[i])}=${dataDiagMod[selected[i]]}`)
+				
 			}
 				  const sourcemulti = url + checkedUrl + sourceUser
 				  axios({
@@ -268,9 +283,10 @@ colonne140: "O",
 					  Authorization: 'Bearer ' + Cookies.get('authToken')
 				  }
 			  })
-			  .then(res => {setmulti(res.data[0].nb)}, setCheckUrl(checkedUrl+ sourceUser))
+			  .then(res => {setmulti(res.data[0].nb)}, setCheckUrl(checkedUrl+ sourceUser),setFilter(filterName))
 		  } else {
 			setmulti(0)
+			setFilter([])
 		  }
 	}
 
@@ -409,6 +425,18 @@ const exportApe = () => {
 		{(choice>0) &&
 	<>
 	<h4>Résultat multi critères: {multi.toLocaleString()} DE</h4>
+	<h5>Critères:</h5>
+		  <IconButton aria-label="delete" onClick={deselect}>
+            <DeleteIcon />
+          </IconButton>
+	<ol className='diag-ol'>
+	{filter.map(el => (
+	<li key={el}>
+		{el}
+	</li>)
+	)}
+	</ol>
+
 	</>
 	}
 
@@ -416,3 +444,4 @@ const exportApe = () => {
 )};
 
 export default Diag;
+

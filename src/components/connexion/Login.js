@@ -46,7 +46,7 @@ const Login = () => {
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
                     <div className="card-header">
-                        <h3>Login to your Account</h3>
+                        <h3>Login</h3>
                     </div>
                     <div className="card-body">
                         <form onSubmit={log}>
@@ -70,26 +70,26 @@ const Login = () => {
                             </div>
                             <div className="card-footer">
                                 <div className="d-flex justify-content-center links">
-                                <input type="submit" value="Login" className="btn float-right login_btn"></input>
+                                <input type="submit" value="Valider" className="btn float-right login_btn"></input>
                                 </div>
                             </div> 
                         </form>
                     </div>
                     <div>
 				        <div className="d-flex justify-content-center links">
-                        <Link className="btn float-right login_btn" to="/register">Don't have an account? Register</Link>
+                        <Link className="btn float-right login_btn" to="/register">Créer compte</Link>
 				        </div>
 			        </div>
                     <div>
 				        <div className="d-flex justify-content-center links">
-                        <button type="submit" className="btn float-right login_btn" to="">Forgotten your password? Recover password</button>
+                        {user.flash &&  <SnackbarContent message={user.flash} />}
 				        </div>
 			        </div>
                 </div>
             </div>
         </div>
         <div> 
-                   {user.flash &&  <SnackbarContent message={user.flash} />}
+                  
                </div>
         </div>          
                    

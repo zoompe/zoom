@@ -287,7 +287,7 @@ export default function NavbarV() {
                         onClick={popupState.close}
                         className="menu-close"
                       >
-                        close
+                        {/* close */}
                       </MenuItem>
                     </Menu>
                   </React.Fragment>
@@ -448,6 +448,17 @@ export default function NavbarV() {
                     }}
                   >
                     Contacts
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link
+                    className=""
+                    to="presta"
+                    onClick={() => {
+                      handleHistoric('Prestations');
+                    }}
+                  >
+                    Prestations
                   </Link>
                 </ListItem>
               </ExpansionPanelDetails>

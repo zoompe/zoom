@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { SnackbarContent } from '@material-ui/core';
-import Select from '../shared/Select';
 import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
@@ -9,6 +8,8 @@ import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import './registerUser.css';
 
 const RegisterUser = () => {
@@ -18,7 +19,8 @@ const RegisterUser = () => {
     const [ register, setRegister ] = useState({idgasi: '' , name: '',
     fonction_id: '', team_id: null , password: '', p_user: '' , ape_id: null , flash:''});
 
-    
+    const [message, setMessage] = useState('');
+
     const [ listFunction, SetListFunction] = useState([]);
     const [ listTeam, SetListTeam] = useState([]);
     const [ listAPE, SetListAPE] = useState([]);
@@ -67,10 +69,36 @@ const RegisterUser = () => {
         setRegister({...register, [name]: value })
         }
     }
+
+
+//     const handleSubmit = (event) => {
+//     event.preventDefault();
+//     if (
+//       (register.fonction_id === '1' && register.p_user) ||
+//       register.fonction_id !== '1'
+//     ) {
+//       setMessage('');
+//       axios({
+//         method: 'put',
+//         url: source,
+//         data: register,
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: 'Bearer ' + Cookies.get('authToken'),
+//         },
+//       }).then((res) => setRegister(res.data));
+//     } else {
+//       setMessage('le champ p_user est requis');
+//     }
+//   };
  
       const handleSubmit = (event) => {
          event.preventDefault();
-        //  console.log(register)
+         if (
+                  (register.fonction_id === '1' && register.p_user) ||
+                  register.fonction_id !== '1'
+                ) {
+                  setMessage('');
                   fetch("/auth/signup",
               {
                   method:  'POST',
@@ -84,6 +112,9 @@ const RegisterUser = () => {
                   res  => setRegister({...register, flash: res.flash}),
                   err  => setRegister({...register, flash: err.flash })
               )
+        } else {
+               setMessage('le champ p_user est requis');
+                }
     }
     
 
@@ -94,7 +125,7 @@ const RegisterUser = () => {
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
                     <div className="card-header">
-                        <h3>Register</h3>
+                        <h3>Créer un compte</h3>
                     </div>
                     <div className="card-body">
                         <form onSubmit={handleSubmit}>
@@ -138,12 +169,26 @@ const RegisterUser = () => {
                                handleChange = {handleChange}
                                placeholder = {'Select team'}
                                 /> 
-                                <Select 
-                                name = 'p_user' 
-                                options = {listPuser} //database
-                                value = {register.p_user}
-                                handleChange = {handleChange}
-                                />
+                                  <Autocomplete
+                                    onChange={(event, newValue) => {
+                                        setRegister({ ...register, p_user: newValue });
+                                    }}
+                                    name="p_user"
+                                    id="p_user"
+                                    options={listPuser}
+                                    style={{ width: 500 }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                        {...params}
+                                        label="P user"
+                                        variant="outlined"
+                                        value={register.p_user}
+                                        />
+                                    )}
+                                 />
+                                 <br></br>
+                                  <div>{message}</div>
+            
                                 <SelectStructure
                                name = 'ape_id'
                                options = {listAPE} //database
@@ -171,22 +216,23 @@ const RegisterUser = () => {
                             }
                              <div className="card-footer">
                                 <div className="d-flex justify-content-center links">
-                                <input type="submit" value="Register" className="btn float-right login_btn"></input>
+                                <input type="submit" value="Valider" className="btn float-right login_btn"></input>
                                 </div>
                             </div>   
                         </form>
                         </div>
                     <div>
 				        <div className="d-flex justify-content-center links">
-                        <Link className="btn float-right login_btn" to="/">Already have an account? Sign in</Link>
+                        <Link className="btn float-right login_btn" to="/">Login</Link>
 				    </div>
-			        </div>
+                       </div>
+                        <div className="d-flex justify-content-center links">
+                            {register.flash &&  <SnackbarContent message="Vous êtes déjà enregistré" />}
+                        </div>
                 </div>
             </div>
         </div>
-                <div> 
-                   {register.flash &&  <SnackbarContent message={register.flash} />}
-               </div>
+               
         </div>          
                    
     )

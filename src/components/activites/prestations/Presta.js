@@ -1,6 +1,6 @@
 import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
-import ContactTab from './ContactTab';
+import PrestaTab from './PrestaTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import ref from '../../../image/ref.png';
 import ape from '../../../image/ape.png';
-import './contact.css'
+// import './contact.css'
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	},
   }));
 
-const Contacts = () => {
+const Presta = () => {
 
   const classes = useStyles();
 
@@ -130,7 +130,7 @@ const Contacts = () => {
 			if(sourceUser !== 'soon'){
 					axios({
 						method: 'get',
-						url: `/activites/contacts?${sourceUser}`,
+						url: `/activites/presta?${sourceUser}`,
 						headers: {
 							Authorization: 'Bearer ' + Cookies.get('authToken')
 						}
@@ -171,7 +171,7 @@ const Contacts = () => {
 		//    console.log(sql)
 		   axios({
 			   method: 'get',
-			   url: `/activites/contacts?${sourceUser}&${sql}`,
+			   url: `/activites/presta?${sourceUser}&${sql}`,
 			   headers: {
 				   Authorization: 'Bearer ' + Cookies.get('authToken')
 			   }
@@ -193,7 +193,7 @@ const Contacts = () => {
 			axios({
 				method: 'get', 
 				responseType: 'blob', 
-				url: '/activitexlsx/contacts/ref?' + checkUrl,
+				url: '/activitexlsx/presta/ref?' + checkUrl,
 				headers: {
 					Authorization: 'Bearer ' + Cookies.get('authToken'),
 				}
@@ -202,7 +202,7 @@ const Contacts = () => {
 				const url = window.URL.createObjectURL(new Blob([response.data]));
 				const link = document.createElement('a');
 				link.href = url;
-				link.setAttribute('download', 'contactREF.xlsx'); 
+				link.setAttribute('download', 'prestaREF.xlsx'); 
 				document.body.appendChild(link);
 				link.click();
 			 });
@@ -213,7 +213,7 @@ const Contacts = () => {
 			axios({
 				method: 'get', 
 				responseType: 'blob', 
-				url: '/activitexlsx/contacts/ape?' + checkUrl,
+				url: '/activitexlsx/presta/ape?' + checkUrl,
 				headers: {
 					Authorization: 'Bearer ' + Cookies.get('authToken'),
 				}
@@ -222,7 +222,7 @@ const Contacts = () => {
 				const url = window.URL.createObjectURL(new Blob([response.data]));
 				const link = document.createElement('a');
 				link.href = url;
-				link.setAttribute('download', 'contactAPE.xlsx'); 
+				link.setAttribute('download', 'prestaAPE.xlsx'); 
 				document.body.appendChild(link);
 				link.click();
 			 });
@@ -239,7 +239,7 @@ const Contacts = () => {
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>Contacts DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
+		<h4>Prestations DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
 		{(dataActi!==undefined && dataActi.length>0) &&
 			<div className='excel'>
@@ -306,7 +306,7 @@ const Contacts = () => {
 			
 			
 			<div>
-			<ContactTab dataActi={dataActi}/>	 	 
+			<PrestaTab dataActi={dataActi}/>	 	 
 			</div>
 			
 					
@@ -315,4 +315,4 @@ const Contacts = () => {
 	;
 };
 
-export default Contacts;
+export default Presta;

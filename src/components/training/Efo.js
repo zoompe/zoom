@@ -291,7 +291,7 @@ const Efo = () => {
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>Photo EFO DE en/hors portefeuille</h4>
+		<h4>Photo EFO en stock (conseillées ou souhaitées) DE en/hors portefeuille</h4>
 		{(dataEfo!==undefined) &&
 			<div className='excel'>
 			<img onClick={exportIDE} src={ide} alt='IDE' title='Liste selon filtre par IDE'/>
