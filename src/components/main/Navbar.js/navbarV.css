@@ -1,0 +1,57 @@
+.MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #4b9bc9 !important;
+  /* background-image: linear-gradient(#4b9bc9, #cacfd2); */
+}
+
+.MuiToolbar-root {
+  justify-content: space-between;
+}
+
+.MuiIconButton-root {
+  margin-right: 30px !important;
+  padding: 5px !important;
+}
+
+.MuiExpansionPanelSummary-content {
+  justify-content: space-between;
+}
+
+.MuiExpansionPanelDetails-root {
+  flex-direction: column;
+}
+.MuiBadge-colorSecondary {
+  background-color: #b7797f !important;
+}
+
+.menu {
+  margin-top: 30px;
+}
+
+.menu li:last-child {
+  border-radius: 5px;
+  color: red;
+  width: 75px;
+  margin: 0px auto;
+  padding: 0px auto;
+}
+
+#id-user {
+  background-color: #4b9bc9;
+  border-radius: 5px;
+  color: white;
+  padding: 3px;
+  margin-right: 5px;
+}
+/* .MuiButtonBase-root, */
+.MuiButton-root,
+.MuiButton-contained,
+.MuiButton-containedPrimary {
+  background-color: #4b9bc9 !important;
+  border: none;
+  box-shadow: none !important;
+}
+
+.mailto {
+  color: rgb(78, 78, 78);
+}
