@@ -32,7 +32,7 @@ const UpdateUser = ({ show, handleClose }) => {
   const [listTeam, SetListTeam] = useState([]);
   const [listAPE, SetListAPE] = useState([]);
   const [listPuser, SetListPuser] = useState([]);
-  const [puser, SetPuser] = useState('');
+
 
   // load datas from database - Mimic ComponentDidMount
   useEffect(() => {
@@ -89,8 +89,8 @@ const UpdateUser = ({ show, handleClose }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (
-      (register.fonction_id == 1 && register.p_user) ||
-      register.fonction_id != 1
+      (register.fonction_id === '1' && register.p_user) ||
+      register.fonction_id !== '1'
     ) {
       setMessage('');
       axios({
@@ -115,7 +115,7 @@ const UpdateUser = ({ show, handleClose }) => {
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Maj Profile {user.name} </Modal.Title>
+        <Modal.Title>Changement du profil {user.name} </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="login">
@@ -123,7 +123,7 @@ const UpdateUser = ({ show, handleClose }) => {
             <div className="d-flex justify-content-center h-100">
               <div className="card">
                 <div className="card-header">
-                  <h3>Nouveau Profile</h3>
+                  {/* <h3>Nouveau Profile</h3> */}
                 </div>
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
@@ -154,10 +154,10 @@ const UpdateUser = ({ show, handleClose }) => {
                               {...params}
                               label="P user"
                               variant="outlined"
-                              value={puser}
+                              value={register.p_user}
                             />
                           )}
-                          //   required="required" //?? don't work
+                         
                         />
                         <div>{message}</div>
                         <br></br>

@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ContactTab({dataActi}) {
+export default function PrestaTab({dataActi}) {
   const classes = useStyles();
 
   return (
@@ -28,16 +28,14 @@ export default function ContactTab({dataActi}) {
             <TableCell align="right">Année</TableCell>
             <TableCell align="right">Mois</TableCell>
             <TableCell align="right" title='Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (le même DE peut avoir plusieurs ref au cours du mois)'>Nb DE affectés</TableCell>
-            <TableCell align="right" title='Nombre total de contacts canal: Accueil physique et nature: Demande de traitement'>GOA</TableCell>
-            <TableCell align="right" title='Nombre total de contacts canal: Téléphone Entrant et nature: Demande de traitement'>3949</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens physiques">Nb ent phys</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens téléphoniques">Nb ent tel</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens par mail">Nb ent mail</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens visio (Modalité média contact = WCO)">Nb ent DMC</TableCell>
-            <TableCell align="right" title="Nombre total de contacts canal: Mail Entrant et nature: Demande d'information (si le DE ne s'identifie pas, on perd l'information)">Nb mailnet entrant</TableCell>
-            <TableCell align="right" title="Nombre total de contacts canal: Mail Sortant et nature: Demande d'information">Nb mailnet sortant</TableCell>
-            <TableCell align="right" title="Taux de contacts moyen par portefeuille au sens large, hors automate à l'initiative du DE">Tx contact entrant</TableCell>
-            <TableCell align="right" title="Taux de contacts moyen par portefeuille au sens large, hors automate à l'initiative du PE">Tx contact sortant</TableCell>
+            <TableCell align="right" title="Nombre total de prestations ACTIV'CREA">Activ'Créa</TableCell>
+            <TableCell align="right" title="Nombre total de prestations ACTIV'Emploi">Activ'Emploi</TableCell>
+            <TableCell align="right" title="Nombre total de prestations ACTIV'Projet">Activ'Projet</TableCell>
+            <TableCell align="right" title="Nombre total de prestations REGARDS CROISES">Regards croisés</TableCell>
+            <TableCell align="right" title="Nombre total de prestations VALORISER SON IMAGE PRO">Valoriser son image pro</TableCell>
+            <TableCell align="right" title="Nombre total de prestations MARCHE DU TRAVAIL LOCAL + MARCHE DU TRAVAIL SECTORIEL + PRESENTATION DES ORGANISMES ET DES FORMATIONS">Vers un métier</TableCell>
+            <TableCell align="right" title="Si plusieurs prestations dans le mois, une seule est comptabilisée par DE et référent.">Presta</TableCell>
+            <TableCell align="right" title="Taux de prestation moyen par portefeuille au sens large">Tx presta</TableCell>
           </TableRow>
         </TableHead>
 
@@ -54,9 +52,8 @@ export default function ContactTab({dataActi}) {
               <TableCell align="right">{row[Object.keys(dataActi[0])[7]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[10]].toLocaleString()}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[11]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[12]]}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[10]]}</TableCell>
+
             </TableRow>
           ))}
         </TableBody>

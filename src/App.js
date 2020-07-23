@@ -5,6 +5,7 @@ import Login from './components/connexion/Login';
 import RegisterUser from './components/connexion/RegisterUser';
 import Main from './components/main/Main';
 import Contacts from './components/activites/contacts/Contacts';
+import Presta from './components/activites/prestations/Presta';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
 import Jalons from './components/wallet/jalons/Jalons';
@@ -41,6 +42,7 @@ function App() {
 									<PrivateRoute path="/home/jalons" component={Jalons} />
 									<PrivateRoute path="/home/efo" component={Efo} />
 									<PrivateRoute path="/home/contacts" component={Contacts} />
+									<PrivateRoute path="/home/presta" component={Presta} />
 									<PrivateRoute path="/home/Load" component={Load} />
 									<PrivateRoute path="/home/user" component={UpdateUser} />
 								</Main>
